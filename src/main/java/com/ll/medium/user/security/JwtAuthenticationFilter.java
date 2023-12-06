@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         } catch (JwtException ex) {
             if (refreshToken != null && jwtTokenUtil.validateToken(refreshToken)) {
-                String email = jwtTokenUtil.getEmail(refreshToken);
+                String email = jwtTokenUtil.getUsername(refreshToken);
                 String newAccessToken = jwtTokenUtil.createAccessToken(email, List.of("USER"));
                 ResponseCookie newAccessTokenCookie = ResponseCookie.from("accessToken", newAccessToken)
                         .httpOnly(true)

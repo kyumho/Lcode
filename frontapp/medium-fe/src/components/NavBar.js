@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
+import { useUser } from '../hooks/useUser'
 import {
   VscAccount,
   VscListUnordered,
@@ -9,9 +11,28 @@ import {
   VscThreeBars,
 } from 'react-icons/vsc'
 import DropdownMenu from './Dropdown'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import axios from '../config/axios-config'
 
 export default function Navbar() {
+  const { user, isLoading, isError } = useUser()
+  const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
+
+  const defaultProfileImage =
+    'https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMTgy/MDAxNjA0MjI4ODc1NDMw.Ex906Mv9nnPEZGCh4SREknadZvzMO8LyDzGOHMKPdwAg.ZAmE6pU5lhEdeOUsPdxg8-gOuZrq_ipJ5VhqaViubI4g.JPEG.gambasg/%EC%9C%A0%ED%8A%9C%EB%B8%8C_%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84_%ED%95%98%EB%8A%98%EC%83%89.jpg?type=w800' // 기본 프로필 이미지 경로
+
+  const handleLogout = async () => {
+    try {
+      await axios.post('/api/v1/auth/logout')
+      queryClient.invalidateQueries('user') // 유저 데이터 쿼리를 무효화하여 다시 가져옵니다.
+      window.location.href = '/' // 메인 페이지로 이동합니다.
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   const toggleMenu = () => {
     setIsOpen(!isOpen)
@@ -28,7 +49,7 @@ export default function Navbar() {
         <Link href='/board'>
           <button className='btn btn-outline btn-md hover:bg-gray-200 ml-20 hidden lg:flex lg:space-x-4 lg:justify-around'>
             <VscListUnordered className='mr-2' />
-            글쓰기
+            게시판
           </button>
         </Link>
       </div>
@@ -40,20 +61,42 @@ export default function Navbar() {
         />
         {isOpen && <DropdownMenu />}
       </div>
-      <div className='hidden lg:flex lg:space-x-4 lg:justify-around'>
-        <Link href='/auth/signin'>
-          <button className='btn btn-outline btn-md hover:bg-gray-200'>
-            <VscSignIn className='mr-2' />
-            로그인
-          </button>
-        </Link>
-        <Link href='/auth/signup'>
-          <button className='btn btn-outline btn-md hover:bg-gray-200'>
-            <VscAccount className='mr-2' />
-            회원가입
-          </button>
-        </Link>
-      </div>
+      {isLoading ? null : user ? (
+        <div className='hidden lg:flex lg:space-x-4 lg:justify-around'>
+          <Link href='/auth/signin'>
+            <button
+              onClick={handleLogout}
+              className='btn btn-outline btn-md hover:bg-gray-200'>
+              <VscSignIn className='mr-2' />
+              로그아웃
+            </button>
+          </Link>
+          <Image
+            src={
+              user.profileImageUrl ? user.profileImageUrl : defaultProfileImage
+            }
+            alt='프로필 이미지'
+            width={50}
+            height={50}
+            className='rounded-full'
+          />
+        </div>
+      ) : (
+        <div className='hidden lg:flex lg:space-x-4 lg:justify-around'>
+          <Link href='/auth/signin'>
+            <button className='btn btn-outline btn-md hover:bg-gray-200'>
+              <VscSignIn className='mr-2' />
+              로그인
+            </button>
+          </Link>
+          <Link href='/auth/signup'>
+            <button className='btn btn-outline btn-md hover:bg-gray-200'>
+              <VscAccount className='mr-2' />
+              회원가입
+            </button>
+          </Link>
+        </div>
+      )}
     </div>
   )
 }

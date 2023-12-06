@@ -35,16 +35,20 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "phone_number", nullable = false)
-    private String phoneNumber;
 
     @Column(nullable = false)
     private String address;
+
+    @Column(name = "address_detail", nullable = false)
+    private String addressDetail;
 
     @Column(name = "profile_url")
     private String profilePhotoUrl;
@@ -72,10 +76,8 @@ public class User {
 
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "refresh_token_id", referencedColumnName = "id")
+    @JoinColumn(name = "refresh_token_id")
     private RefreshToken refreshToken;
-
-
 
     public void verifyEmail() {
         this.emailVerified = true;

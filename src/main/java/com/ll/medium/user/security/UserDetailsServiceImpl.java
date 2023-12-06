@@ -18,15 +18,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> userByEmail = userRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> userByUsername = userRepository.findByUsername(username);
 
-        if (userByEmail.isPresent()) {
-            User user = userByEmail.get();
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+        if (userByUsername.isPresent()) {
+            User user = userByUsername.get();
+            return new org.springframework.security.core.userdetails.User(username, user.getPassword(),
                     Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole())));
         }
 
-        throw new UsernameNotFoundException(email + "로 가입된 계정이 없습니다.");
+        throw new UsernameNotFoundException(username + "로 가입된 계정이 없습니다.");
     }
 }

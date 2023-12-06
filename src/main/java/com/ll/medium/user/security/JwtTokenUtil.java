@@ -30,8 +30,8 @@ public class JwtTokenUtil {
 
     private final UserDetailsServiceImpl userDetailsService;
 
-    public String createRefreshToken(String email, List<String> roles) {
-        Claims claims = Jwts.claims().setSubject(email);
+    public String createRefreshToken(String username, List<String> roles) {
+        Claims claims = Jwts.claims().setSubject(username);
         claims.put("roles", roles);
 
         Date now = new Date();
@@ -46,9 +46,9 @@ public class JwtTokenUtil {
     }
 
 
-    public String createAccessToken(String email, List<String> roles) {
+    public String createAccessToken(String username, List<String> roles) {
 
-        Claims claims = Jwts.claims().setSubject(email);
+        Claims claims = Jwts.claims().setSubject(username);
         claims.put("roles", roles);
 
         Date now = new Date();
@@ -64,11 +64,11 @@ public class JwtTokenUtil {
 
 
     public Authentication getAuthentication(String token, String secretKey) {
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(getEmail(token));
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    public String getEmail(String token) {
+    public String getUsername(String token) {
         return Jwts.parser().setSigningKey(tokenSecret).parseClaimsJws(token).getBody().getSubject();
     }
 

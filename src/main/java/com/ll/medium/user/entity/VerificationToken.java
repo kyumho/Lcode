@@ -14,12 +14,12 @@ import lombok.Getter;
 @Getter
 public class VerificationToken {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String token;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
@@ -36,6 +36,5 @@ public class VerificationToken {
         // 예: 토큰이 생성된 후 24시간 후로 설정
         this.expiryDate = new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000);
     }
-
 
 }

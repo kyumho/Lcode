@@ -30,12 +30,9 @@ public class AuthService {
     private final VerificationTokenRepository verificationTokenRepository;
 
     public LoginResponseDto authenticate(String username, String password) {
-        Optional<User> byUsername = userService.getUserByUsername(username);
-        if (!byUsername.isPresent()) {
-            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다."); // 사용자가 존재하지 않는 경우
-        }
 
-        User user = byUsername.get();
+        User user = userService.getUserByUsername(username);
+
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("비밀번호가 틀립니다."); // 비밀번호가 틀린 경우
         }
@@ -120,8 +117,4 @@ public class AuthService {
                 + "</html>";
     }
 
-    public boolean checkIfEmailExist(String email) {
-        Optional<User> userByEmail = userService.getUserByUsername(email);
-        return userByEmail.isPresent();
-    }
 }

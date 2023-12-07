@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,21 +88,20 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public Optional<User> getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
     }
 
     public UserInfoDto userToUserDTO(String username) {
-        Optional<User> userByUsername = getUserByUsername(username);
+        User user = getUserByUsername(username);
         UserInfoDto userDTO = new UserInfoDto();
 
-        if (userByUsername.isPresent()){
-            User user = userByUsername.get();
-            userDTO.setEmail(user.getEmail());
-            userDTO.setAddress(user.getAddress());
-            userDTO.setAddressDetail(user.getAddressDetail());
-            userDTO.setProfileImageUrl(user.getProfilePhotoUrl());
-        }
+        userDTO.setEmail(user.getEmail());
+        userDTO.setAddress(user.getAddress());
+        userDTO.setAddressDetail(user.getAddressDetail());
+        userDTO.setProfileImageUrl(user.getProfilePhotoUrl());
+
         return userDTO;
     }
 }

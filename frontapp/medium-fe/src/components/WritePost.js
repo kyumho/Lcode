@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react'
 import { Editor } from '@toast-ui/react-editor'
 import '@toast-ui/editor/dist/toastui-editor.css'
+import axios from '../config/axios-config'
 
 export default function WritePost() {
   const [title, setTitle] = useState('')
@@ -12,9 +13,17 @@ export default function WritePost() {
     setTitle(e.target.value)
   }
 
-  const handlePostSubmit = () => {
+  const handlePostSubmit = async (e) => {
+    e.preventDefault()
     const editorInstance = editorRef.current.getInstance()
     const content = editorInstance.getMarkdown()
+    try {
+      const response = await axios.post('api/v1/post/write', { title, content })
+
+      console.log(response.data)
+    } catch (err) {
+      console.error(err)
+    }
 
     // 이제 'title'과 'content'를 사용하여 서버에 데이터를 저장할 수 있습니다.
     console.log(title, content)

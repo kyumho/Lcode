@@ -46,12 +46,6 @@ export default function Navbar() {
             MyApp
           </p>
         </Link>
-        <Link href='/board'>
-          <button className='btn btn-outline btn-md hover:bg-gray-200 ml-20 hidden lg:flex lg:space-x-4 lg:justify-around'>
-            <VscListUnordered className='mr-2' />
-            게시판
-          </button>
-        </Link>
       </div>
 
       <div className='flex flex-row justify-between lg:hidden'>

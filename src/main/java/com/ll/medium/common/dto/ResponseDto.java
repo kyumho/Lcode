@@ -19,15 +19,4 @@ public class ResponseDto<T> {
     private Page<T> pageData;
     private T objectData;
 
-    public ResponseDto(String successMessage) {
-        this.successMessage = successMessage;
-    }
-
-    public ResponseDto(List<T> list) {
-        this.listData = list;
-    }
-
-    public ResponseDto(T obj) {
-        this.objectData = obj;
-    }
 }

@@ -4,6 +4,7 @@ package com.ll.medium.board.entity;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ll.medium.common.entity.DateEntity;
 import com.ll.medium.user.entity.User;
 import jakarta.persistence.Entity;
@@ -12,13 +13,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 
-@SuperBuilder
+@Builder
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,5 +36,6 @@ public class Post extends DateEntity {
     private String content;
 
     @ManyToOne(fetch = LAZY)
+    @JsonBackReference
     private User user;
 }

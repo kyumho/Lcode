@@ -73,13 +73,4 @@ public class AuthController {
         }
     }
 
-
-    @PostMapping("/email-exists")
-    public ResponseEntity<?> emailExist(@Valid @RequestBody CheckUserExistDto checkUserExistDto) {
-        boolean checkUserExist = authService.checkIfEmailExist(checkUserExistDto.getEmail());
-        if (checkUserExist){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }

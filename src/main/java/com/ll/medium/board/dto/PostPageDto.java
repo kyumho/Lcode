@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class PostPageDto {
+    private Long id;
     private String title;
     private String content;
     private String createdDate;
@@ -26,6 +27,7 @@ public class PostPageDto {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         return PostPageDto.builder()
+                .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .createdDate(post.getCreatedAt().format(dateFormatter))

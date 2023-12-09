@@ -7,9 +7,11 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ll.medium.common.entity.DateEntity;
 import com.ll.medium.user.entity.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -31,11 +33,18 @@ public class Post extends DateEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String title;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     @ManyToOne(fetch = LAZY)
     @JsonBackReference
     private User user;
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }

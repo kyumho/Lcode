@@ -97,6 +97,7 @@ public class UserService {
         User user = getUserByUsername(username);
         UserInfoDto userDTO = new UserInfoDto();
 
+        userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());
         userDTO.setAddress(user.getAddress());
         userDTO.setAddressDetail(user.getAddressDetail());

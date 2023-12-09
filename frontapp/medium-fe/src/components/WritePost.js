@@ -1,13 +1,23 @@
 'use client'
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Editor } from '@toast-ui/react-editor'
 import '@toast-ui/editor/dist/toastui-editor.css'
 import axios from '../config/axios-config'
 
-export default function WritePost() {
+export default function WritePost({ postId, postTitle, postContent }) {
   const [title, setTitle] = useState('')
   const editorRef = useRef()
+
+  useEffect(() => {
+    if (postId) {
+      // postId가 있을 때만 API 호출을 시도합니다(수정일때만).
+
+      const editorInstance = editorRef.current.getInstance()
+      setTitle(postTitle)
+      editorInstance.setMarkdown(postContent)
+    }
+  }, [postId, postTitle, postContent])
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value)
@@ -39,6 +49,7 @@ export default function WritePost() {
             type='text'
             placeholder='제목'
             onChange={handleTitleChange}
+            value={title}
           />
           <Editor
             initialValue='글을 작성해주세요'

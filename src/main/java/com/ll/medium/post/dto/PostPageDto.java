@@ -1,8 +1,6 @@
-package com.ll.medium.board.dto;
+package com.ll.medium.post.dto;
 
-import com.ll.medium.board.entity.Post;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import com.ll.medium.post.entity.Post;
 import java.time.format.DateTimeFormatter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,6 +16,8 @@ public class PostPageDto {
     private Long id;
     private String title;
     private String content;
+    private Boolean isPublished;
+    private String gptAnswer;
     private String createdDate;
     private String modifiedDate;
     private String author;
@@ -30,6 +30,8 @@ public class PostPageDto {
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
+                .isPublished(post.getIsPublished())
+                .gptAnswer(post.getGptAnswer())
                 .createdDate(post.getCreatedAt().format(dateFormatter))
                 .modifiedDate(post.getUpdatedAt().format(dateFormatter))
                 .author(post.getUser().getUsername())

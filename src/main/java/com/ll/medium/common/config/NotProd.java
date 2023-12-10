@@ -1,7 +1,7 @@
 package com.ll.medium.common.config;
 
-import com.ll.medium.board.entity.Post;
-import com.ll.medium.board.repository.PostRepository;
+import com.ll.medium.post.entity.Post;
+import com.ll.medium.post.repository.PostRepository;
 import com.ll.medium.user.entity.User;
 import com.ll.medium.user.repository.UserRepository;
 import java.util.stream.IntStream;
@@ -43,6 +43,7 @@ public class NotProd implements ApplicationRunner {
                         .title("Title " + i)
                         .content("Content " + i)
                         .user(testUser)
+                        .isPublished(true)
                         .build();
 
                 postRepository.save(post);

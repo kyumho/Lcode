@@ -1,4 +1,4 @@
-package com.ll.medium.board.controller;
+package com.ll.medium.comment.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;

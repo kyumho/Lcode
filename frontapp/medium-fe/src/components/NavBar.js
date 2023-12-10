@@ -40,11 +40,23 @@ export default function Navbar() {
 
   return (
     <div className='bg-gray-50 py-5 px-4 flex flex-row lg:flex-row justify-between items-center w-full'>
-      <div className='flex flex-row'>
+      <div className='flex flex-row space-x-4'>
         <Link href='/'>
           <p className='my-2 text-xl text-gray-600 font-bold cursor-pointer mb-4 lg:mb-0'>
             MyApp
           </p>
+        </Link>
+        <Link href='/board'>
+          <button className='btn btn-outline btn-md hover:bg-gray-200'>
+            <VscSignIn className='mr-2' />
+            게시판
+          </button>
+        </Link>
+        <Link href='/ai'>
+          <button className='btn btn-outline btn-md hover:bg-gray-200'>
+            <VscSignIn className='mr-2' />
+            GPT에게 질문하기
+          </button>
         </Link>
       </div>
 
@@ -55,8 +67,10 @@ export default function Navbar() {
         />
         {isOpen && <DropdownMenu />}
       </div>
+
       {isLoading ? null : user ? (
         <div className='hidden lg:flex lg:space-x-4 lg:justify-around'>
+          <p className='my-3'>{user.username}님 환영합니다.</p>
           <Link href='/auth/signin'>
             <button
               onClick={handleLogout}
@@ -65,6 +79,7 @@ export default function Navbar() {
               로그아웃
             </button>
           </Link>
+
           <Image
             src={
               user.profileImageUrl ? user.profileImageUrl : defaultProfileImage

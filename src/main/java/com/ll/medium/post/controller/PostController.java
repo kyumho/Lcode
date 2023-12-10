@@ -1,11 +1,11 @@
-package com.ll.medium.board.controller;
+package com.ll.medium.post.controller;
 
-import com.ll.medium.board.dto.PostDetailDto;
-import com.ll.medium.board.dto.PostDto;
-import com.ll.medium.board.dto.PostPageDto;
-import com.ll.medium.board.dto.PostRequestDto;
-import com.ll.medium.board.dto.PostUpdateDto;
-import com.ll.medium.board.service.PostService;
+import com.ll.medium.post.dto.PostDetailDto;
+import com.ll.medium.post.dto.PostDto;
+import com.ll.medium.post.dto.PostPageDto;
+import com.ll.medium.post.dto.PostRequestDto;
+import com.ll.medium.post.dto.PostUpdateDto;
+import com.ll.medium.post.service.PostService;
 import com.ll.medium.common.dto.ErrorResponseDto;
 import com.ll.medium.common.dto.ResponseDto;
 import com.ll.medium.user.entity.User;
@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +46,24 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/recent")
+    public ResponseEntity<?> recentPosts(@RequestParam int page) {
+        ResponseDto<Page<PostPageDto>> response;
+        Page<PostPageDto> postPageDtoList = postService.findRecentPosts(page);
+        response = ResponseDto.<Page<PostPageDto>>builder().objectData(postPageDtoList).build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/update/{postId}")
+    public ResponseEntity<?> updatePost(@PathVariable Long postId, @RequestBody PostUpdateDto postUpdateDto) {
+        try {
+            postService.update(postId, postUpdateDto);
+            return ResponseEntity.ok("게시글이 성공적으로 업데이트되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("해당 게시글이 없습니다. id=" + postId);
+        }
+    }
+
     @PostMapping("/write")
     public ResponseEntity<?> save(@AuthenticationPrincipal UserDetails userDetails,
                                   @RequestBody PostRequestDto postRequestDto) {
@@ -60,17 +79,26 @@ public class PostController {
         }
     }
 
-    @PutMapping("/{id}/modify")
-    public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody PostUpdateDto postUpdateDto) {
-        postService.update(id, postUpdateDto);
-        return ResponseEntity.ok().build();
-    }
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<?> getPost(@PathVariable Long id) {
-        log.info(String.valueOf(id));
-        ResponseDto<PostDetailDto> post = postService.getPost(id);
-        return ResponseEntity.ok(post);
+        try {
+            log.info(String.valueOf(id));
+            ResponseDto<PostDetailDto> post = postService.getPost(id);
+            return ResponseEntity.ok(post);
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deletePost(@PathVariable Long id) {
+        try {
+            postService.deletePost(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 

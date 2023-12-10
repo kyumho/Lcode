@@ -12,6 +12,7 @@ export default function EditPost({ id }) {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [postUser, setPostUser] = useState('') // 게시글을 쓴 사람
+  const [isChecked, setIsChecked] = useState(false) // 게시글 공개 여부
   const router = useRouter()
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function EditPost({ id }) {
       setTitle(postDetail.title)
       setContent(postDetail.content)
       setPostUser(postDetail.author)
+      setIsChecked(!postDetail.isPublished)
 
       if (user.username != post.objectData.author) {
         alert('수정 권한이 없습니다.')
@@ -36,6 +38,11 @@ export default function EditPost({ id }) {
   }, [id, isLoading, user])
 
   return isLoading || postUser !== user.username ? null : (
-    <WritePost postId={id} postTitle={title} postContent={content} />
+    <WritePost
+      postId={id}
+      postTitle={title}
+      postContent={content}
+      isPublished={isChecked}
+    />
   )
 }

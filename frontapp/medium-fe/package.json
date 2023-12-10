@@ -14,7 +14,6 @@
     "@tanstack/react-query-devtools": "^5.8.4",
     "@toast-ui/react-editor": "^3.2.3",
     "axios": "^1.6.2",
-    "immutable": "^4.3.4",
     "next": "14.0.2",
     "react": "^18",
     "react-dom": "^18",

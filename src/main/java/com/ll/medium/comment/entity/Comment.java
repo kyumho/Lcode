@@ -1,9 +1,10 @@
-package com.ll.medium.board.entity;
+package com.ll.medium.comment.entity;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import com.ll.medium.common.entity.DateEntity;
+import com.ll.medium.post.entity.Post;
 import com.ll.medium.user.entity.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +16,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 
 @Builder
 @Getter

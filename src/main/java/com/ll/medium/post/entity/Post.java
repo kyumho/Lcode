@@ -1,4 +1,4 @@
-package com.ll.medium.board.entity;
+package com.ll.medium.post.entity;
 
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -11,7 +11,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 
 
 @Builder
@@ -39,12 +37,20 @@ public class Post extends DateEntity {
     @Column(columnDefinition = "LONGTEXT")
     private String content;
 
+    @Column(columnDefinition = "LONGTEXT")
+    private String gptAnswer;
+
+    @Column(name = "is_published")
+    private Boolean isPublished;
+
     @ManyToOne(fetch = LAZY)
     @JsonBackReference
     private User user;
 
-    public void update(String title, String content) {
+    public void update(String title, String content, boolean isPublished, String gptAnswer) {
         this.title = title;
         this.content = content;
+        this.isPublished = isPublished;
+        this.gptAnswer = gptAnswer;
     }
 }

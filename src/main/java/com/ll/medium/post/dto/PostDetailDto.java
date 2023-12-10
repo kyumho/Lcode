@@ -1,10 +1,8 @@
-package com.ll.medium.board.dto;
+package com.ll.medium.post.dto;
 
-import com.ll.medium.board.entity.Post;
+import com.ll.medium.post.entity.Post;
 import java.time.format.DateTimeFormatter;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class PostDetailDto {
@@ -12,6 +10,7 @@ public class PostDetailDto {
     private String title;
     private String content;
     private String author;
+    private String gptAnswer;
     private String createdAt;
     private String updatedAt;
 
@@ -22,6 +21,7 @@ public class PostDetailDto {
         this.title = post.getTitle();
         this.content = post.getContent();
         this.author = post.getUser().getUsername();
+        this.gptAnswer = post.getGptAnswer();
         this.createdAt = post.getCreatedAt().format(dateFormatter);
         this.updatedAt = post.getUpdatedAt().format(dateFormatter);
     }

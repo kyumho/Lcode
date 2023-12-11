@@ -23,6 +23,11 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    if (!credentials.username || !credentials.password) {
+      toast.error('아이디와 비밀번호를 입력해주세요.')
+      return
+    }
+
     try {
       const response = await axios.post('/api/v1/auth/login', credentials)
 

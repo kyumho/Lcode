@@ -6,6 +6,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useUser } from '../hooks/useUser'
 import {
   VscAccount,
+  VscAzure,
   VscListUnordered,
   VscSignIn,
   VscThreeBars,
@@ -71,6 +72,12 @@ export default function Navbar() {
       {isLoading ? null : user ? (
         <div className='hidden lg:flex lg:space-x-4 lg:justify-around'>
           <p className='my-3'>{user.username}님 환영합니다.</p>
+          <Link href='/mypage'>
+            <button className='btn btn-outline btn-md hover:bg-gray-200'>
+              <VscAzure className='mr-2' />
+              마이페이지
+            </button>
+          </Link>
           <Link href='/auth/signin'>
             <button
               onClick={handleLogout}

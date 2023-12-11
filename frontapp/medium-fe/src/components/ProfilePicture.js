@@ -1,10 +1,10 @@
 import { FaUser } from 'react-icons/fa'
 
+;<FaUser size={20} />
 export default function ProfilePicture({ handleFileChange, form }) {
   return (
     <label className='block mt-4'>
       <div className='flex'>
-        <FaUser size={20} />
         <span className='text-gray-700 ml-2'>프로필 사진</span>
       </div>
 

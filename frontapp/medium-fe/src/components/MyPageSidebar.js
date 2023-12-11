@@ -1,5 +1,11 @@
 import React from 'react'
-import { FaUser, FaPen, FaThumbsUp, FaComment } from 'react-icons/fa'
+import {
+  FaUser,
+  FaPen,
+  FaThumbsUp,
+  FaComment,
+  FaUserTimes,
+} from 'react-icons/fa'
 import Link from 'next/link'
 
 export default function MyPageSidebar() {
@@ -29,6 +35,11 @@ export default function MyPageSidebar() {
           <li className='flex items-center space-x-2 mb-2'>
             <FaComment />
             <Link href='/mypage/mycomment'>작성한 댓글</Link>
+          </li>
+          <hr className='p-3' />
+          <li className='flex items-center space-x-2 mb-2'>
+            <FaUserTimes />
+            <Link href='/mypage/userinfo/delete'>회원 탈퇴</Link>
           </li>
         </ul>
       </div>

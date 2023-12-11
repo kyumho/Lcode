@@ -93,6 +93,10 @@ public class UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
     }
 
+    public boolean checkUserExist(String username) {
+        return userRepository.findByUsername(username).isPresent();
+    }
+
     public UserInfoDto userToUserDTO(String username) {
         User user = getUserByUsername(username);
         UserInfoDto userDTO = new UserInfoDto();

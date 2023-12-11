@@ -58,9 +58,12 @@ export default function WritePost({
     // GPT에게 질문을 던져 답변을 얻습니다.
 
     if (postId) {
-      toast.info('저장 중입니다...', {
-        autoClose: 20000,
-      }) // 저장 중 메시지 띄우기
+      toast.info(
+        '저장 중입니다... 최대 20~30초가 소요됩니다. 잠시만 기다려주세요.',
+        {
+          autoClose: 30000,
+        }
+      ) // 저장 중 메시지 띄우기
       const gptRes = await callOpenAI(content)
       const gptAnswer = gptRes.choices[0].message.content
 

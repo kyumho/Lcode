@@ -2,6 +2,7 @@ package com.ll.medium.user.service;
 
 
 import com.ll.medium.user.config.MailProperties;
+import com.ll.medium.user.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,11 @@ public class EmailService {
 
     private final MailProperties mailProperties;
     private final JavaMailSender javaMailSender;
+    private final UserRepository userRepository;
+
+    public boolean checkEmailExist(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
 
     @Async
     public void sendVerificationEmail(String email, String token) {

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import axios from '../config/axios-config'
+import axios from '../../config/axios-config'
 import { VscListUnordered } from 'react-icons/vsc'
 
 export default function AllPost() {

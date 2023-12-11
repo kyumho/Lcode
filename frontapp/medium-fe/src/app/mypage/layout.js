@@ -1,4 +1,4 @@
-import MyPageSidebar from '@/components/MyPageSidebar'
+import MyPageSidebar from '@/components/ui/MyPageSidebar'
 
 export default function MyPageLayout({ children }) {
   return (

@@ -7,11 +7,11 @@ import {
   FaAddressCard,
   FaCheckCircle,
 } from 'react-icons/fa'
-import ProfilePicture from './ProfilePicture'
-import axios from '../config/axios-config'
+import ProfilePicture from '../ui/ProfilePicture'
+import axios from '../../config/axios-config'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import CustomToast from './CustomToast'
+import CustomToast from '../ui/CustomToast'
 import { USERNAME_REGEX, EMAIL_REGEX, PASSWORD_REGEX } from '@/utils/regex'
 
 export default function SignupForm() {

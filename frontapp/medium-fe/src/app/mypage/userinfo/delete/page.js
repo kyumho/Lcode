@@ -1,5 +1,6 @@
 import React from 'react'
+import DeleteUser from '@/components/auth/DeleteUser'
 
 export default function page() {
-  return <div>회원 탈퇴 폼</div>
+  return <DeleteUser />
 }

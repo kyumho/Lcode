@@ -1,5 +1,5 @@
 import React from 'react'
-import EditPost from '@/components/EditPost'
+import EditPost from '@/components/post/EditPost'
 
 export default function page({ params: data }) {
   console.log(data.id)

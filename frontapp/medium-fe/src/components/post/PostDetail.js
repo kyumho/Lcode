@@ -4,7 +4,7 @@ import { HiDocumentText } from 'react-icons/hi'
 import { useUser } from '@/hooks/useUser'
 import { VscTrash, VscEdit } from 'react-icons/vsc'
 import { useRouter } from 'next/navigation'
-import axios from '../config/axios-config'
+import axios from '../../config/axios-config'
 import { HiOutlineChatAlt2 } from 'react-icons/hi'
 
 export default function PostDetail({ postDetail }) {

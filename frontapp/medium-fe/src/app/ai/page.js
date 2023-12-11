@@ -1,5 +1,5 @@
 import React from 'react'
-import ChatbotPage from '@/components/Chatbot'
+import ChatbotPage from '@/components/ui/Chatbot'
 
 export default async function page() {
   return (

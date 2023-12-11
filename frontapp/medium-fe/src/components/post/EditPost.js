@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import WritePost from '@/components/WritePost'
+import WritePost from '@/components/post/WritePost'
 import { useUser } from '@/hooks/useUser'
 import { getPost } from '@/utils/post'
 import { useRouter } from 'next/navigation'

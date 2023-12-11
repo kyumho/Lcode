@@ -15,6 +15,7 @@ export default function MyPageUserInfo() {
 
   if (isLoading) return <div></div>
 
+
   const hiddenPassword = '*'.repeat('abcdefghijkabcdffe'.length) // user.password.length
 
   return (

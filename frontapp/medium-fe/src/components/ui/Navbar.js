@@ -3,18 +3,19 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import { useUser } from '../hooks/useUser'
+import { useUser } from '../../hooks/useUser'
 import {
   VscAccount,
   VscAzure,
   VscListUnordered,
+  VscQuestion,
   VscSignIn,
   VscThreeBars,
 } from 'react-icons/vsc'
 import DropdownMenu from './Dropdown'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import axios from '../config/axios-config'
+import axios from '../../config/axios-config'
 
 export default function Navbar() {
   const { user, isLoading, isError } = useUser()
@@ -49,13 +50,13 @@ export default function Navbar() {
         </Link>
         <Link href='/board'>
           <button className='btn btn-outline btn-md hover:bg-gray-200'>
-            <VscSignIn className='mr-2' />
+            <VscListUnordered size={20} className='mr-2' />
             게시판
           </button>
         </Link>
         <Link href='/ai'>
           <button className='btn btn-outline btn-md hover:bg-gray-200'>
-            <VscSignIn className='mr-2' />
+            <VscQuestion size={20} className='mr-2' />
             GPT에게 질문하기
           </button>
         </Link>

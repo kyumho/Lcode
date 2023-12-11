@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import Navbar from '@/components/Navbar'
+import Navbar from '@/components/ui/Navbar'
 import TanstackProvider from '@/context/TanStackProvider'
 
 export const metadata = {

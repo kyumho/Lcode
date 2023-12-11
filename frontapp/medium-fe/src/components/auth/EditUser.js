@@ -3,16 +3,17 @@
 import React, { useState, useEffect } from 'react'
 import { useUser } from '@/hooks/useUser'
 import { FaUserEdit, FaCheckCircle, FaTimes } from 'react-icons/fa'
-import axios from '../config/axios-config'
+import axios from '../../config/axios-config'
 import { USERNAME_REGEX, PASSWORD_REGEX } from '@/utils/regex'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useRouter } from 'next/navigation'
 
 export default function EditUser() {
   const { user, isLoading, isError } = useUser()
+  const router = useRouter()
 
   const [form, setForm] = useState({
-    username: '',
     password: '',
     confirmPassword: '',
     address: '',
@@ -20,33 +21,11 @@ export default function EditUser() {
   })
 
   const [errors, setErrors] = useState({
-    username: null,
     password: null,
     confirmPassword: null,
     address: null,
     addressDetail: null,
   })
-
-  const [userExistIconColor, setUserExistIconColor] = useState('')
-
-  const checkUserExists = async (e) => {
-    e.preventDefault()
-    try {
-      const response = await axios.get(`/api/v1/member/exist/${form.username}`)
-      console.log(response.data)
-      if (response.data && form.username != user.username) {
-        setErrors({
-          ...errors,
-          username: '이미 사용중인 아이디입니다.',
-        })
-      } else {
-        toast.info('사용 가능한 아이디입니다.')
-        setUserExistIconColor('text-green-500')
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   const handleSearchAddress = (e) => {
     e.preventDefault()
@@ -75,7 +54,6 @@ export default function EditUser() {
   useEffect(() => {
     if (user) {
       setForm({
-        username: user.username,
         password: '',
         confirmPassword: '',
         address: user.address,
@@ -87,10 +65,6 @@ export default function EditUser() {
   const handleChange = (e) => {
     e.preventDefault()
     const { name, value } = e.target
-
-    if (name == 'username') {
-      setUserExistIconColor('')
-    }
 
     if (name === 'confirmPassword') {
       if (value !== form.password) {
@@ -113,7 +87,7 @@ export default function EditUser() {
     setForm({ ...form, [name]: value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     const emptyFields = Object.keys(form).filter((key) => !form[key])
@@ -128,44 +102,24 @@ export default function EditUser() {
       return
     }
 
-    if (userExistIconColor !== 'text-green-500') {
-      toast.error('아이디를 인증해주세요.')
-      return
-    }
-
-    console.log(formData)
-    // 서버에 수정 요청을 보내는 코드를 여기에 작성합니다.
+    const response = await axios
+      .put('/api/v1/member/update', form)
+      .then((res) => {
+        toast.success('회원 정보가 수정되었습니다.')
+        router.push('/mypage/userinfo')
+      })
+      .catch((err) => {
+        toast.error('회원 정보 수정에 실패했습니다.')
+      })
   }
 
-  if (isLoading) return <div>로딩 중...</div>
+  if (isLoading) return <div></div>
 
   return (
     <div className='p-8 bg-white w-[80vh] h-[80vh] shadow-md rounded flex flex-col items-center space-y-6'>
       <ToastContainer />
       <h1 className='text-3xl font-bold'>회원 정보 수정</h1>
       <form onSubmit={handleSubmit} className='w-full space-y-6'>
-        <label className='flex flex-col'>
-          <span className='mb-2 font-semibold'>아이디:</span>
-          <div className='flex items-center'>
-            <input
-              name='username'
-              value={form.username}
-              onChange={handleChange}
-              className='input input-bordered mr-2'
-            />
-            <button
-              className={`p-2 ml-2 mb-3 ${userExistIconColor}`}
-              onClick={checkUserExists}>
-              <FaCheckCircle
-                className={`min-w-fit ${userExistIconColor}`}
-                size={20}
-              />
-            </button>
-          </div>
-          {errors.username && (
-            <span className='text-red-500 text-sm mt-2'>{errors.username}</span>
-          )}
-        </label>
         <label className='flex flex-col'>
           <span className='mb-2 font-semibold'>비밀번호:</span>
           <input

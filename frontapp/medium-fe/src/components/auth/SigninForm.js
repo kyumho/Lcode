@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { FaUserCircle, FaLock, FaGoogle, FaCoffee } from 'react-icons/fa'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import axios from '../config/axios-config'
+import axios from '../../config/axios-config'
 import { useRouter } from 'next/navigation'
 
 export default function LoginForm() {

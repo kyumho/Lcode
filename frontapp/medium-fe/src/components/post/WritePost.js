@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Editor } from '@toast-ui/react-editor'
 import '@toast-ui/editor/dist/toastui-editor.css'
-import axios from '../config/axios-config'
+import axios from '../../config/axios-config'
 import { useRouter } from 'next/navigation'
 import { IoLockClosedOutline, IoLockOpenOutline } from 'react-icons/io5'
 import { toast, ToastContainer } from 'react-toastify'

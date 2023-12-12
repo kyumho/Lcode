@@ -55,7 +55,7 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
-        return authService.logout(request, response);
+        return authService.deleteCookie(request, response);
     }
 
     @GetMapping("/confirm-account")

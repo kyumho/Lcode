@@ -82,7 +82,7 @@ public class AuthService {
         response.addHeader("Set-Cookie", refreshTokenCookie.toString());
     }
 
-    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> deleteCookie(HttpServletRequest request, HttpServletResponse response) {
         // 쿠키에서 accessToken과 refreshToken을 찾아서 삭제합니다.
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {

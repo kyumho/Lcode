@@ -1,6 +1,6 @@
 import React from 'react'
-import Home from '@/components/ui/Home'
+import RecentPost from '@/components/post/RecentPost'
 
 export default function HomePage() {
-  return <Home />
+  return <RecentPost />
 }

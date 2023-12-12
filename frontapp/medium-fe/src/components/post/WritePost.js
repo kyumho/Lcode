@@ -5,7 +5,12 @@ import { Editor } from '@toast-ui/react-editor'
 import '@toast-ui/editor/dist/toastui-editor.css'
 import axios from '../../config/axios-config'
 import { useRouter } from 'next/navigation'
-import { IoLockClosedOutline, IoLockOpenOutline } from 'react-icons/io5'
+import {
+  IoLockClosedOutline,
+  IoLockOpenOutline,
+  IoHelpBuoyOutline,
+  IoHelpCircleOutline,
+} from 'react-icons/io5'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import callOpenAI from '@/utils/openai'
@@ -18,6 +23,7 @@ export default function WritePost({
 }) {
   const [title, setTitle] = useState('')
   const [isChecked, setIsChecked] = useState(false)
+  const [isGptChecked, setIsGptChecked] = useState(false) // GPT 체크 여부
   const editorRef = useRef()
   const router = useRouter()
 
@@ -64,8 +70,13 @@ export default function WritePost({
           autoClose: 30000,
         }
       ) // 저장 중 메시지 띄우기
-      const gptRes = await callOpenAI(content)
-      const gptAnswer = gptRes.choices[0].message.content
+
+      let gptAnswer = ''
+
+      if (isGptChecked) {
+        const gptRes = await callOpenAI(content)
+        gptAnswer = gptRes.choices[0].message.content
+      }
 
       const response = await axios
         .put(`/api/v1/post/update/${postId}`, {
@@ -89,8 +100,12 @@ export default function WritePost({
       toast.info('저장 중입니다...', {
         autoClose: 20000,
       }) // 저장 중 메시지 띄우기
-      const gptRes = await callOpenAI(content)
-      const gptAnswer = gptRes.choices[0].message.content
+      let gptAnswer = ''
+
+      if (isGptChecked) {
+        const gptRes = await callOpenAI(content)
+        gptAnswer = gptRes.choices[0].message.content
+      }
 
       const response = await axios
         .post('/api/v1/post/write', {
@@ -137,16 +152,44 @@ export default function WritePost({
             useCommandShortcut={true}
             ref={editorRef}
           />
-          <input
-            type='checkbox'
-            className='form-checkbox text-blue-500 h-5 w-5'
-            checked={isChecked}
-            onChange={() => setIsChecked(!isChecked)}
-          />
-          <label className='flex space-x-3'>
-            {isChecked ? <IoLockClosedOutline /> : <IoLockOpenOutline />}
-            <span>{isChecked ? '비공개' : '공개'}</span>
-          </label>
+          <div className='flex space-x-5'>
+            <div className='flex space-x-2'>
+              <label className='flex space-x-3'>
+                {isChecked ? (
+                  <IoLockClosedOutline size={20} />
+                ) : (
+                  <IoLockOpenOutline size={20} />
+                )}
+                <span>{isChecked ? '비공개' : '공개'}</span>
+              </label>
+              <input
+                type='checkbox'
+                className='form-checkbox text-blue-500 h-5 w-5'
+                checked={isChecked}
+                onChange={() => setIsChecked(!isChecked)}
+              />
+            </div>
+
+            <div className='flex space-x-2'>
+              <label className='flex space-x-3'>
+                {isGptChecked ? (
+                  <IoHelpBuoyOutline size={20} />
+                ) : (
+                  <IoHelpCircleOutline size={20} />
+                )}
+                <span>
+                  {isGptChecked ? 'Gpt에게 질문하기!!' : 'GPT 질문 생략'}
+                </span>
+              </label>
+              <input
+                type='checkbox'
+                className='form-checkbox text-blue-500 h-5 w-5'
+                checked={isGptChecked}
+                onChange={() => setIsGptChecked(!isGptChecked)}
+              />
+            </div>
+          </div>
+
           <div className='flex flex-col space-y-10'>
             <button
               onClick={handlePostSubmit}

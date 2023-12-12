@@ -1,7 +1,6 @@
 package com.ll.medium.user.entity;
 
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -86,5 +85,11 @@ public class User {
 
     public void verifyEmail() {
         this.emailVerified = true;
+    }
+
+    public void updateUser(String password, String address, String addressDetail) {
+        this.password = password;
+        this.address = address;
+        this.addressDetail = addressDetail;
     }
 }

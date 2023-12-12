@@ -23,10 +23,10 @@ export default function EditPost({ id }) {
     const fetchPost = async () => {
       const post = await getPost(id)
       const postDetail = post.objectData
+      const isChecked = postDetail.isPublished
       setTitle(postDetail.title)
       setContent(postDetail.content)
       setPostUser(postDetail.author)
-      setIsChecked(!postDetail.isPublished)
 
       if (user.username != post.objectData.author) {
         alert('수정 권한이 없습니다.')

@@ -9,12 +9,15 @@ import com.ll.medium.post.service.PostService;
 import com.ll.medium.common.dto.ErrorResponseDto;
 import com.ll.medium.common.dto.ResponseDto;
 import com.ll.medium.user.entity.User;
+import com.ll.medium.user.security.UserPrinciple;
 import com.ll.medium.user.service.UserService;
+import java.nio.file.attribute.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -101,6 +104,17 @@ public class PostController {
         }
     }
 
+    @GetMapping("/mypost/not-published")
+    public ResponseEntity<Page<PostPageDto>> getNotPublishedPostsByUser(@AuthenticationPrincipal UserPrinciple userPrincipal, @PageableDefault(size = 9) Pageable pageable) {
+        User user = userPrincipal.getUser();
+        return ResponseEntity.ok(postService.getNotPublishedPostsByUser(user, pageable));
+    }
+
+    @GetMapping("/mypost/published")
+    public ResponseEntity<Page<PostPageDto>> getPublishedPostsByUser(@AuthenticationPrincipal UserPrinciple userPrincipal, @PageableDefault(size = 9) Pageable pageable) {
+        User user = userPrincipal.getUser();
+        return ResponseEntity.ok(postService.getPublishedPostsByUser(user, pageable));
+    }
 
 }
 

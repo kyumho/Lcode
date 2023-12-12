@@ -6,6 +6,7 @@ import com.ll.medium.post.dto.PostUpdateDto;
 import com.ll.medium.post.entity.Post;
 import com.ll.medium.post.repository.PostRepository;
 import com.ll.medium.common.dto.ResponseDto;
+import com.ll.medium.user.entity.User;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +49,22 @@ public class PostService {
         return new PageImpl<>(pagedPosts, PageRequest.of(page, 9), recentPosts.size());
     }
 
+    public Page<PostPageDto> getNotPublishedPostsByUser(User user, Pageable pageable) {
+        Pageable sortedByCreatedAtDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
+        Page<Post> postsByIsPublishedFalseAndUser = postRepository.findByIsPublishedFalseAndUser(user,
+                sortedByCreatedAtDesc);
+
+        return postsByIsPublishedFalseAndUser.map(PostPageDto::entityToDto);
+    }
+
+    public Page<PostPageDto> getPublishedPostsByUser(User user, Pageable pageable) {
+        Pageable sortedByCreatedAtDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
+        Page<Post> postsByIsPublishedTrueAndUser = postRepository.findByIsPublishedTrueAndUser(user,
+                sortedByCreatedAtDesc);
+
+        return postsByIsPublishedTrueAndUser.map(PostPageDto::entityToDto);
+    }
+
     @Transactional
     public void update(Long postId, PostUpdateDto postUpdateDto) {
         Post post = postRepository.findById(postId)
@@ -74,4 +91,6 @@ public class PostService {
 
         postRepository.delete(post);
     }
+
+
 }

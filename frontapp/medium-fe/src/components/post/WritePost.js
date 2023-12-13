@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import { Editor } from '@toast-ui/react-editor'
-import '@toast-ui/editor/dist/toastui-editor.css'
+import ReactMarkdownEditor from 'react-markdown-editor-lite'
+import MDEditor from '@uiw/react-md-editor'
 import axios from '../../config/axios-config'
 import { useRouter } from 'next/navigation'
 import {
@@ -22,19 +22,17 @@ export default function WritePost({
   isPublished,
 }) {
   const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
   const [isChecked, setIsChecked] = useState(false)
   const [isGptChecked, setIsGptChecked] = useState(false) // GPT 체크 여부
-  const editorRef = useRef()
   const router = useRouter()
 
   useEffect(() => {
     console.log(isPublished)
     if (postId) {
       // postId가 있을 때만 API 호출을 시도합니다(수정일때만).
-
-      const editorInstance = editorRef.current.getInstance()
       setTitle(postTitle)
-      editorInstance.setMarkdown(postContent)
+      setContent(postContent)
       setIsChecked(!isPublished)
     }
   }, [postId, postTitle, postContent, isPublished])
@@ -44,10 +42,12 @@ export default function WritePost({
     setTitle(e.target.value)
   }
 
+  const handleMarkdownChange = (value) => {
+    setContent(value)
+  }
+
   const handlePostSubmit = async (e) => {
     e.preventDefault()
-    const editorInstance = editorRef.current.getInstance()
-    const content = editorInstance.getMarkdown()
     const isPublished = !isChecked
 
     // 제목과 내용이 비어있는 경우를 검증합니다.
@@ -144,14 +144,16 @@ export default function WritePost({
             onChange={handleTitleChange}
             value={title}
           />
-          <Editor
-            initialValue='글을 작성해주세요'
-            previewStyle='vertical'
-            height='700px'
-            initialEditType='markdown'
-            useCommandShortcut={true}
-            ref={editorRef}
-          />
+
+          <div className='markarea'>
+            <div data-color-mode='light'>
+              <MDEditor
+                height={865}
+                value={content}
+                onChange={handleMarkdownChange}
+              />
+            </div>
+          </div>
           <div className='flex space-x-5'>
             <div className='flex space-x-2'>
               <label className='flex space-x-3'>

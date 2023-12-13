@@ -4,7 +4,6 @@ import { useState } from 'react'
 import callOpenAI from '@/utils/openai'
 import { HiOutlineArrowRight } from 'react-icons/hi'
 import 'tailwindcss/tailwind.css'
-import '@toast-ui/editor/dist/toastui-editor.css'
 
 export default function ChatbotPage() {
   const [history, setHistory] = useState([])

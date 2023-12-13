@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import ReactMarkdownEditor from 'react-markdown-editor-lite'
 import MDEditor from '@uiw/react-md-editor'
 import axios from '../../config/axios-config'
 import { useRouter } from 'next/navigation'

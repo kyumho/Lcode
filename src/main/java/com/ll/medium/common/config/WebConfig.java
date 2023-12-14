@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000") // Next.js 애플리케이션의 URL
+                .allowedOrigins("http://localhost:3000", "https://medium-fe.vercel.app") // Next.js 애플리케이션의 URL
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
                 .allowedHeaders("X-CSRF-Token", "X-Requested-With", "Accept", "Accept-Version", "Content-Length",
                         "Content-MD5", "Content-Type", "Date", "X-Api-Version")

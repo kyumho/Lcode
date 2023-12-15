@@ -36,4 +36,8 @@ public class Comment extends DateEntity {
 
     @ManyToOne(fetch = LAZY)
     private Post post;
+
+    public void update(String content) {
+        this.content = content;
+    }
 }

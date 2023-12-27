@@ -39,3 +39,6 @@ out/
 
 ### yaml ###
 *.yml
+
+### nodemodules ###
+frontapp/node_modules/

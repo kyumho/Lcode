@@ -29,13 +29,10 @@ public class AuthService {
     private final UserService userService;
     private final VerificationTokenRepository verificationTokenRepository;
 
-    public LoginResponseDto authenticate(String email, String password) {
-        Optional<User> userByEmail = userService.getUserByEmail(email);
-        if (!userByEmail.isPresent()) {
-            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다."); // 사용자가 존재하지 않는 경우
-        }
+    public LoginResponseDto authenticate(String username, String password) {
 
-        User user = userByEmail.get();
+        User user = userService.getUserByUsername(username);
+
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("비밀번호가 틀립니다."); // 비밀번호가 틀린 경우
         }
@@ -45,15 +42,15 @@ public class AuthService {
         }
 
         // 로그인 성공 시 JWT 토큰 생성
-        String accessToken = jwtTokenUtil.createAccessToken(email, List.of("USER"));
+        String accessToken = jwtTokenUtil.createAccessToken(username, List.of("USER"));
 
-        RefreshToken foundRefreshToken = userService.findRefreshToken(email);
+        RefreshToken foundRefreshToken = userService.findRefreshToken(username);
         String refreshToken;
         if (foundRefreshToken != null) {
             refreshToken = foundRefreshToken.getKeyValue();
         } else {
-            refreshToken = jwtTokenUtil.createRefreshToken(email, List.of("USER"));
-            userService.saveRefreshToken(email, refreshToken);
+            refreshToken = jwtTokenUtil.createRefreshToken(username, List.of("USER"));
+            userService.saveRefreshToken(username, refreshToken);
         }
 
         return new LoginResponseDto(accessToken, refreshToken);
@@ -85,7 +82,7 @@ public class AuthService {
         response.addHeader("Set-Cookie", refreshTokenCookie.toString());
     }
 
-    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> deleteCookie(HttpServletRequest request, HttpServletResponse response) {
         // 쿠키에서 accessToken과 refreshToken을 찾아서 삭제합니다.
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -120,8 +117,4 @@ public class AuthService {
                 + "</html>";
     }
 
-    public boolean checkIfEmailExist(String email) {
-        Optional<User> userByEmail = userService.getUserByEmail(email);
-        return userByEmail.isPresent();
-    }
 }

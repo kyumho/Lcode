@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/auth")
+@RequestMapping("api/v1/auth")
 public class AuthController {
 
     private final AuthService authService;
@@ -32,12 +33,12 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto,
                                                   HttpServletResponse response) {
-        String email = loginRequestDto.getEmail();
+        String username = loginRequestDto.getUsername();
         String password = loginRequestDto.getPassword();
 
         try {
             // 로그인 인증 및 Access Token, Refresh Token 발급
-            LoginResponseDto loginResp = authService.authenticate(email, password);
+            LoginResponseDto loginResp = authService.authenticate(username, password);
 
             String accessToken = loginResp.getAccessToken();
             // 클라이언트에게 Access Token과 Refresh Token을 전달
@@ -54,7 +55,7 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
-        return authService.logout(request, response);
+        return authService.deleteCookie(request, response);
     }
 
     @GetMapping("/confirm-account")
@@ -74,12 +75,4 @@ public class AuthController {
     }
 
 
-    @PostMapping("/email-exists")
-    public ResponseEntity<?> emailExist(@Valid @RequestBody CheckUserExistDto checkUserExistDto) {
-        boolean checkUserExist = authService.checkIfEmailExist(checkUserExistDto.getEmail());
-        if (checkUserExist){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }

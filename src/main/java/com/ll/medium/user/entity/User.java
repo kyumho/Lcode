@@ -1,7 +1,7 @@
 package com.ll.medium.user.entity;
 
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,24 +35,30 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "phone_number", nullable = false)
-    private String phoneNumber;
 
     @Column(nullable = false)
     private String address;
+
+    @Column(name = "address_detail", nullable = false)
+    private String addressDetail;
 
     @Column(name = "profile_url")
     private String profilePhotoUrl;
 
     @Column(name = "provider_id")
+    @JsonIgnore
     private String providerId;
 
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private SocialProvider provider;
 
     @Column(name = "created_at")
@@ -68,16 +74,22 @@ public class User {
     @Column(nullable = false)
     private String role;
 
+    @JsonIgnore
     private boolean emailVerified;
 
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "refresh_token_id", referencedColumnName = "id")
+    @JoinColumn(name = "refresh_token_id")
+    @JsonIgnore
     private RefreshToken refreshToken;
-
-
 
     public void verifyEmail() {
         this.emailVerified = true;
+    }
+
+    public void updateUser(String password, String address, String addressDetail) {
+        this.password = password;
+        this.address = address;
+        this.addressDetail = addressDetail;
     }
 }

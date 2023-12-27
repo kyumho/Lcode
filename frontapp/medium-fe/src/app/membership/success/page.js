@@ -1,5 +1,6 @@
 import React from 'react'
+import SuccessPage from '@/components/membership/SuccessPage'
 
 export default function page() {
-  return <div>성공 페이지</div>
+  return <SuccessPage />
 }

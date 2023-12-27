@@ -74,7 +74,7 @@ export function CheckoutPage() {
                 // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
                 await paymentWidget?.requestPayment({
                   orderId: nanoid(),
-                  orderName: '토스 티셔츠 외 2건',
+                  orderName: '미디엄 멤버십 결제',
                   customerName: '김토스',
                   customerEmail: 'customer123@gmail.com',
                   customerMobilePhone: '01012341234',

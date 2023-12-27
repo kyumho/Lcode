@@ -11,6 +11,7 @@ import {
   VscQuestion,
   VscSignIn,
   VscThreeBars,
+  VscCreditCard,
 } from 'react-icons/vsc'
 import DropdownMenu from './Dropdown'
 import Image from 'next/image'
@@ -58,6 +59,12 @@ export default function Navbar() {
           <button className='btn btn-outline btn-md hover:bg-gray-200'>
             <VscQuestion size={20} className='mr-2' />
             GPT에게 질문하기
+          </button>
+        </Link>
+        <Link href='/membership'>
+          <button className='btn btn-outline btn-md hover:bg-gray-200'>
+            <VscCreditCard size={20} className='mr-2' />
+            멤버십 가입하기
           </button>
         </Link>
       </div>

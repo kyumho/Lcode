@@ -4,9 +4,10 @@ import axios from 'axios'
 import { NextResponse } from 'next/server'
 
 export async function POST(req, res) {
-  const { paymentKey, orderId, amount } = req.body
+  let passedValue = await new Response(req.body).text()
+  let bodyreq = JSON.parse(passedValue)
 
-  console.log(req.body['paymentKey'])
+  const { paymentKey, orderId, amount } = bodyreq
 
   try {
     const response = await axios.post(
@@ -19,7 +20,7 @@ export async function POST(req, res) {
       {
         headers: {
           Authorization: `Basic ${Buffer.from(
-            `${process.env.NEXT_PUBLIC_TOSS_PAYMENTS_SECRET_KEY}:`,
+            `${process.env.TOSS_PAYMENTS_SECRET_KEY}:`,
             'utf-8'
           ).toString('base64')}`,
         },

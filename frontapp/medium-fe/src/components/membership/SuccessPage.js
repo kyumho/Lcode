@@ -3,7 +3,6 @@
 import React from 'react'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
 
 export default function SuccessPage() {
   const [payment, setPayment] = useState(null)
@@ -13,16 +12,24 @@ export default function SuccessPage() {
     const urlParams = new URLSearchParams(window.location.search)
     const paymentKey = urlParams.get('paymentKey')
     const orderId = urlParams.get('orderId')
-    const amount = urlParams.get('amount')
+    let amount = urlParams.get('amount')
 
-    console.log(paymentKey, orderId, amount)
+    amount = parseFloat(amount)
 
     axios
-      .post('/api/confirmPayment', {
-        paymentKey: paymentKey,
-        orderId: orderId,
-        amount: amount,
-      })
+      .post(
+        '/api/confirmPayment',
+        {
+          paymentKey,
+          orderId,
+          amount,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
       .then((response) => setPayment(response.data))
       .catch((error) => {
         setError(error.response.data)

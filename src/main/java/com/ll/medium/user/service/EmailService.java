@@ -30,7 +30,7 @@ public class EmailService {
 
         String htmlMsg = "<h3>미디엄 클론 이메일 인증</h3>"
                 + "<p>이메일 인증을 하시려면 아래 링크를 클릭해주세요 :</p>"
-                + "<a href='https://localhost:8082/api/v1/auth/confirm-account?token=" + token + "'>이메일 인증하기</a>";
+                + "<a href='https://api.lionshop.me/api/v1/auth/confirm-account?token=" + token + "'>이메일 인증하기</a>";
 
         try {
             helper.setTo(email);

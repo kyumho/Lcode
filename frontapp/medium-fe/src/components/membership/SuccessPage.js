@@ -1,17 +1,26 @@
-'use client'
+'use client' // 클라이언트-전용 컴포넌트를 나타내는 선언
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import { FaCreditCard, FaShoppingCart, FaClock, FaTag } from 'react-icons/fa'
 
 export default function SuccessPage() {
-  const urlParams = new URLSearchParams(window.location.search)
-  const paymentKey = urlParams.get('paymentKey')
-  const orderId = urlParams.get('orderId')
-  const amount = parseFloat(urlParams.get('amount'))
+  const [paymentKey, setPaymentKey] = useState(null)
+  const [orderId, setOrderId] = useState(null)
+  const [amount, setAmount] = useState(null)
+
+  useEffect(() => {
+    // URL 파라미터는 클라이언트 사이드에서만 읽어옵니다.
+    const urlParams = new URLSearchParams(window.location.search)
+    setPaymentKey(urlParams.get('paymentKey'))
+    setOrderId(urlParams.get('orderId'))
+    setAmount(parseFloat(urlParams.get('amount')))
+  }, [])
 
   const fetchPayment = async () => {
+    if (!paymentKey || !orderId || !amount) return null // 필요한 값들이 설정되었는지 확인
+
     const response = await axios.post(
       'https://api.tosspayments.com/v1/payments/confirm',
       { paymentKey, orderId, amount },
@@ -35,6 +44,7 @@ export default function SuccessPage() {
   } = useQuery({
     queryKey: ['payment', paymentKey, orderId, amount],
     queryFn: fetchPayment,
+    enabled: !!paymentKey && !!orderId && !!amount, // paymentKey, orderId, amount 값이 있는 경우에만 쿼리를 활성화합니다.
     retry: 1,
   })
 

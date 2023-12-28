@@ -34,6 +34,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final BooleanPath isPaid = createBoolean("isPaid");
+
     public final StringPath password = createString("password");
 
     public final StringPath profilePhotoUrl = createString("profilePhotoUrl");
@@ -43,8 +45,6 @@ public class QUser extends EntityPathBase<User> {
     public final StringPath providerId = createString("providerId");
 
     public final QRefreshToken refreshToken;
-
-    public final StringPath role = createString("role");
 
     public final DateTimePath<java.time.LocalDateTime> updatedAt = createDateTime("updatedAt", java.time.LocalDateTime.class);
 

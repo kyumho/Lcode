@@ -61,6 +61,8 @@ public class User {
     @JsonIgnore
     private SocialProvider provider;
 
+    private boolean isPaid;  // 결제 여부를 나타내는 필드
+
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -70,9 +72,6 @@ public class User {
     @Column(name = "updated_at")
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
-    @Column(nullable = false)
-    private String role;
 
     @JsonIgnore
     private boolean emailVerified;
@@ -85,6 +84,10 @@ public class User {
 
     public void verifyEmail() {
         this.emailVerified = true;
+    }
+
+    public String getRole() {
+        return isPaid ? "ROLE_PAID" : "ROLE_USER";
     }
 
     public void updateUser(String password, String address, String addressDetail) {

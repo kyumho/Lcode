@@ -47,7 +47,7 @@ public class UserService {
                 .addressDetail(userRegisterDto.getAddressDetail())
                 .profilePhotoUrl(userRegisterDto.getProfilePictureUrl())
                 .createdAt(LocalDateTime.now())
-                .role("USER")
+                .isPaid(false)  // 가입 시 무료 회원
                 .emailVerified(false)
                 .build();
 

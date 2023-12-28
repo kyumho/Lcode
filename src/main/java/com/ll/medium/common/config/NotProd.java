@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-@Profile("dev")
+@Profile("!prod")
 public class NotProd implements ApplicationRunner {
 
     private final PostRepository postRepository;
@@ -25,7 +25,7 @@ public class NotProd implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         if (userRepository.count() == 0) {
 
-            IntStream.rangeClosed(1, 50).forEach(i -> {
+            IntStream.rangeClosed(1, 100).forEach(i -> {
                 User testUser = User
                         .builder()
                         .username("test" + i)
@@ -33,7 +33,7 @@ public class NotProd implements ApplicationRunner {
                         .email("test" + i + "@test.com")
                         .address("서울특별시" + i)
                         .addressDetail("강남구" + i)
-                        .role("USER")
+                        .isPaid(true)
                         .emailVerified(true)
                         .build();
 

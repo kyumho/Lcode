@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -63,19 +64,22 @@ public class AuthService {
         userService.verifyEmail(verificationToken.getUser());
     }
 
+
     public void setTokenInCookie(String accessToken, String refreshToken, HttpServletResponse response) {
         ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", accessToken)
                 .httpOnly(true)
                 .path("/")
+                .domain(".lionshop.me")
                 .secure(true)
-                .sameSite("None") // SameSite 설정
+//                .sameSite("None") // SameSite 설정
                 .build();
 
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
                 .path("/")
+                .domain(".lionshop.me")
                 .secure(true)
-                .sameSite("None") // SameSite 설정
+//                .sameSite("None") // SameSite 설정
                 .build();
 
         response.addHeader("Set-Cookie", accessTokenCookie.toString());

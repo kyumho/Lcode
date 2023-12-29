@@ -70,7 +70,7 @@ public class PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
 
-        post.update(postUpdateDto.getTitle(), postUpdateDto.getContent(), postUpdateDto.getIsPublished(), postUpdateDto.getGptAnswer());
+        post.update(postUpdateDto.getTitle(), postUpdateDto.getContent(), postUpdateDto.getIsPublished(), postUpdateDto.getIsPaid(), postUpdateDto.getGptAnswer());
     }
 
     public ResponseDto<PostDetailDto> getPost(Long id) {

@@ -9,10 +9,13 @@ import {
   IoLockOpenOutline,
   IoHelpBuoyOutline,
   IoHelpCircleOutline,
+  IoCashOutline,
+  IoCashSharp,
 } from 'react-icons/io5'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import callOpenAI from '@/utils/openai'
+import { useUser } from '@/hooks/useUser'
 
 export default function WritePost({
   postId,
@@ -24,6 +27,8 @@ export default function WritePost({
   const [content, setContent] = useState('')
   const [isChecked, setIsChecked] = useState(false)
   const [isGptChecked, setIsGptChecked] = useState(false) // GPT 체크 여부
+  const [isPaid, setIsPaid] = useState(false) // 무료글, 유료글 체크
+  const { user, isLoading } = useUser()
   const router = useRouter()
 
   useEffect(() => {
@@ -32,7 +37,7 @@ export default function WritePost({
       // postId가 있을 때만 API 호출을 시도합니다(수정일때만).
       setTitle(postTitle)
       setContent(postContent)
-      setIsChecked(!isPublished)
+      setIsChecked(isPublished)
     }
   }, [postId, postTitle, postContent, isPublished])
 
@@ -82,6 +87,7 @@ export default function WritePost({
           title,
           content,
           isPublished,
+          isPaid,
           gptAnswer, // GPT의 답변을 함께 저장합니다.
         })
         .then((res) => {
@@ -110,8 +116,9 @@ export default function WritePost({
         .post('/api/v1/post/write', {
           title,
           content,
-          isPublished,
           gptAnswer, // GPT의 답변을 함께 저장합니다.
+          isPublished,
+          isPaid,
         })
         .then((res) => {
           if (res.status == 200) {
@@ -169,6 +176,29 @@ export default function WritePost({
                 checked={isChecked}
                 onChange={() => setIsChecked(!isChecked)}
               />
+            </div>
+
+            <div>
+              {user && user.role === 'PAID' && (
+                <div className='flex space-x-5'>
+                  <div className='flex space-x-2'>
+                    <label className='flex space-x-3 items-center'>
+                      {isPaid ? (
+                        <IoCashSharp size={20} />
+                      ) : (
+                        <IoCashOutline size={20} />
+                      )}
+                      <span>{isPaid ? '유료글' : '무료글'}</span>
+                    </label>
+                    <input
+                      type='checkbox'
+                      className='form-checkbox text-blue-500 h-5 w-5'
+                      checked={isPaid}
+                      onChange={() => setIsPaid(!isPaid)}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className='flex space-x-2'>

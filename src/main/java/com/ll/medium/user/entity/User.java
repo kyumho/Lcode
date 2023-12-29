@@ -62,7 +62,7 @@ public class User extends DateEntity {
     @JsonIgnore
     private SocialProvider provider;
 
-    private boolean isPaid;  // 결제 여부를 나타내는 필드
+    private boolean isPaid = false;  // 결제 여부를 나타내는 필드
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

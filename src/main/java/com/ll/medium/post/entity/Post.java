@@ -45,15 +45,18 @@ public class Post extends DateEntity {
     @Column(name = "is_published")
     private Boolean isPublished;
 
+    private Boolean isPaid = false;
+
     @ManyToOne(fetch = LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private User user;
 
-    public void update(String title, String content, boolean isPublished, String gptAnswer) {
+    public void update(String title, String content, boolean isPublished,boolean isPaid, String gptAnswer) {
         this.title = title;
         this.content = content;
         this.isPublished = isPublished;
+        this.isPaid = isPaid;
         this.gptAnswer = gptAnswer;
     }
 }

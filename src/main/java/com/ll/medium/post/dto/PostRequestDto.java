@@ -8,5 +8,6 @@ public class PostRequestDto {
     private String title;
     private String content;
     private Boolean isPublished;
+    private Boolean isPaid;
     private String gptAnswer;
 }

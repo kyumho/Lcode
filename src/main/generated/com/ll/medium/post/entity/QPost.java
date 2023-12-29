@@ -33,6 +33,8 @@ public class QPost extends EntityPathBase<Post> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final BooleanPath isPaid = createBoolean("isPaid");
+
     public final BooleanPath isPublished = createBoolean("isPublished");
 
     public final StringPath title = createString("title");

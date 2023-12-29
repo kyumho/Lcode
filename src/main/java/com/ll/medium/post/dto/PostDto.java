@@ -18,6 +18,7 @@ public class PostDto {
     private String title;
     private String content;
     private User author;
+    private Boolean isPaid;
     private Boolean isPublished;
     private String gptAnswer;
     private LocalDateTime createdDate;
@@ -26,6 +27,7 @@ public class PostDto {
     public PostDto(final PostRequestDto dto, User user) {
         this.id = dto.getId();
         this.author = user;
+        this.isPaid = dto.getIsPaid();
         this.isPublished = dto.getIsPublished();
         this.title = dto.getTitle();
         this.content = dto.getContent();
@@ -36,6 +38,7 @@ public class PostDto {
         this.id = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
+        this.isPaid = post.getIsPaid();
         this.author = post.getUser();
         this.isPublished = post.getIsPublished();
         this.gptAnswer = post.getGptAnswer();
@@ -49,6 +52,7 @@ public class PostDto {
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .user(dto.getAuthor())
+                .isPaid(dto.getIsPaid())
                 .isPublished(dto.getIsPublished())
                 .gptAnswer(dto.getGptAnswer())
                 .build();

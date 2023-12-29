@@ -18,6 +18,7 @@ public class PostPageDto {
     private String content;
     private Boolean isPublished;
     private String gptAnswer;
+    private Boolean isPaid;
     private String createdDate;
     private String modifiedDate;
     private String author;
@@ -31,6 +32,7 @@ public class PostPageDto {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .isPublished(post.getIsPublished())
+                .isPaid(post.getIsPaid())
                 .gptAnswer(post.getGptAnswer())
                 .createdDate(post.getCreatedAt().format(dateFormatter))
                 .modifiedDate(post.getUpdatedAt().format(dateFormatter))

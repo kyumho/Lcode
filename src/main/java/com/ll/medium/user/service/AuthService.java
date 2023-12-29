@@ -94,6 +94,7 @@ public class AuthService {
                 if (cookie.getName().equals("accessToken") || cookie.getName().equals("refreshToken")) {
                     ResponseCookie deleteCookie = ResponseCookie.from(cookie.getName(), "")
                             .httpOnly(true)
+                            .domain(".lionshop.me")
                             .path("/")
                             .secure(true)
                             .sameSite("None") // SameSite 설정

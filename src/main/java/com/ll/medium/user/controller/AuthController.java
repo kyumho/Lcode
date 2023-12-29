@@ -1,10 +1,10 @@
 package com.ll.medium.user.controller;
 
 
-import com.ll.medium.user.dto.CheckUserExistDto;
 import com.ll.medium.user.dto.LoginRequestDto;
 import com.ll.medium.user.dto.LoginResponseDto;
 import com.ll.medium.user.service.AuthService;
+import com.ll.medium.user.service.ProdAuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

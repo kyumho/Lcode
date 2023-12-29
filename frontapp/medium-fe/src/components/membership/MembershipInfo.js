@@ -4,9 +4,17 @@ import React, { useState } from 'react'
 import { IoCash } from 'react-icons/io5'
 import { FaMoneyBillWave, FaCashRegister } from 'react-icons/fa'
 import { CheckoutPage } from './Checkout'
+import { useUser } from '@/hooks/useUser'
+import { useRouter } from 'next/navigation'
 
 export default function MembershipInfo() {
   const [showCheckout, setShowCheckout] = useState(false)
+  const router = useRouter()
+  const { user, isLoading } = useUser()
+
+  if (isLoading || !user || user.role !== 'USER') {
+    return <div>접근이 불가능한 페이지입니다.</div>
+  }
 
   return (
     <div className='container mx-auto p-6'>

@@ -22,6 +22,8 @@ public class QUser extends EntityPathBase<User> {
 
     public static final QUser user = new QUser("user");
 
+    public final com.ll.medium.common.entity.QDateEntity _super = new com.ll.medium.common.entity.QDateEntity(this);
+
     public final StringPath address = createString("address");
 
     public final StringPath addressDetail = createString("addressDetail");
@@ -45,6 +47,8 @@ public class QUser extends EntityPathBase<User> {
     public final StringPath providerId = createString("providerId");
 
     public final QRefreshToken refreshToken;
+
+    public final EnumPath<UserRole> role = createEnum("role", UserRole.class);
 
     public final DateTimePath<java.time.LocalDateTime> updatedAt = createDateTime("updatedAt", java.time.LocalDateTime.class);
 

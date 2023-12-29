@@ -2,6 +2,7 @@ package com.ll.medium.user.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ll.medium.common.entity.DateEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,7 +30,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class User {
+public class User extends DateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -63,6 +64,10 @@ public class User {
 
     private boolean isPaid;  // 결제 여부를 나타내는 필드
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserRole role = UserRole.USER;
+
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -86,8 +91,9 @@ public class User {
         this.emailVerified = true;
     }
 
-    public String getRole() {
-        return isPaid ? "ROLE_PAID" : "ROLE_USER";
+    public void updateUser(boolean isPaid, UserRole role) {
+        this.isPaid = isPaid;
+        this.role = role;
     }
 
     public void updateUser(String password, String address, String addressDetail) {

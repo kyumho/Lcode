@@ -3,6 +3,8 @@ package com.ll.medium.user.controller;
 
 import com.ll.medium.user.dto.LoginRequestDto;
 import com.ll.medium.user.dto.LoginResponseDto;
+import com.ll.medium.user.entity.User;
+import com.ll.medium.user.security.UserPrinciple;
 import com.ll.medium.user.service.AuthService;
 import com.ll.medium.user.service.ProdAuthService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,9 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,12 +69,20 @@ public class AuthController {
         try {
             authService.confirmAccount(token);
 
-            String successHtml = authService.generateHtmlResponse("이메일 인증이 완료되었습니다!", "https://previews.123rf.com/images/lineartestpilot/lineartestpilot1803/lineartestpilot180307030/96672834-%EC%9B%83%EB%8A%94-%EC%82%AC%EC%9E%90-%EB%A7%8C%ED%99%94.jpg");
+            String successHtml = authService.generateHtmlResponse("이메일 인증이 완료되었습니다!",
+                    "https://previews.123rf.com/images/lineartestpilot/lineartestpilot1803/lineartestpilot180307030/96672834-%EC%9B%83%EB%8A%94-%EC%82%AC%EC%9E%90-%EB%A7%8C%ED%99%94.jpg");
             return new ResponseEntity<>(successHtml, headers, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
-            String failureHtml = authService.generateHtmlResponse("이메일 인증에 실패하였습니다.", "https://us.123rf.com/450wm/marconi/marconi0807/marconi080700010/3322493-%EC%9A%B0%EB%8A%94-%EC%82%AC%EC%9E%90.jpg");
+            String failureHtml = authService.generateHtmlResponse("이메일 인증에 실패하였습니다.",
+                    "https://us.123rf.com/450wm/marconi/marconi0807/marconi080700010/3322493-%EC%9A%B0%EB%8A%94-%EC%82%AC%EC%9E%90.jpg");
             return new ResponseEntity<>(failureHtml, headers, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PutMapping("/update-role")
+    public ResponseEntity<?> updateRole(@AuthenticationPrincipal UserPrinciple userPrinciple) {
+        User user = userPrinciple.getUser();
+        return authService.updateRole(user);
     }
 
 

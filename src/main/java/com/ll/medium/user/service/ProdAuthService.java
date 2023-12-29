@@ -4,6 +4,7 @@ package com.ll.medium.user.service;
 import com.ll.medium.user.dto.LoginResponseDto;
 import com.ll.medium.user.entity.RefreshToken;
 import com.ll.medium.user.entity.User;
+import com.ll.medium.user.entity.UserRole;
 import com.ll.medium.user.entity.VerificationToken;
 import com.ll.medium.user.repository.VerificationTokenRepository;
 import com.ll.medium.user.security.JwtTokenUtil;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -123,6 +125,14 @@ public class ProdAuthService implements AuthService{
                 + "<img src='" + imageUrl + "' alt='Lion Image'>"
                 + "</body>"
                 + "</html>";
+    }
+
+    @Transactional
+    @Override
+    public ResponseEntity<?> updateRole(User user) {
+        user.updateUser(true, UserRole.PAID);
+        userService.save(user);
+        return ResponseEntity.ok().body("유저 권한 업데이트 성공");
     }
 
 }

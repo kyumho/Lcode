@@ -1,6 +1,7 @@
 package com.ll.medium.user.service;
 
 import com.ll.medium.user.dto.LoginResponseDto;
+import com.ll.medium.user.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -17,4 +18,6 @@ public interface AuthService {
 
 
     public String generateHtmlResponse(String message, String imageUrl);
+
+    ResponseEntity<?> updateRole(User user);
 }

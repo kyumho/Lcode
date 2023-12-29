@@ -1,5 +1,6 @@
 package com.ll.medium.user.dto;
 
+import com.ll.medium.user.entity.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,4 +17,5 @@ public class UserInfoDto {
     private String address;
     private String addressDetail;
     private String profileImageUrl;
+    private UserRole role;
 }

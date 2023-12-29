@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { FaCreditCard, FaShoppingCart, FaClock, FaTag } from 'react-icons/fa'
+import serverAxios from '../../config/axios-config'
 
 export default function SuccessPage() {
   const [paymentKey, setPaymentKey] = useState(null)
@@ -21,18 +22,29 @@ export default function SuccessPage() {
   const fetchPayment = async () => {
     if (!paymentKey || !orderId || !amount) return null // 필요한 값들이 설정되었는지 확인
 
-    const response = await axios.post(
-      'https://api.tosspayments.com/v1/payments/confirm',
-      { paymentKey, orderId, amount },
-      {
-        headers: {
-          Authorization: `Basic ${Buffer.from(
-            `${process.env.NEXT_PUBLIC_TOSS_PAYMENTS_SECRET_KEY}:`,
-            'utf-8'
-          ).toString('base64')}`,
-        },
-      }
-    )
+    const response = await axios
+      .post(
+        'https://api.tosspayments.com/v1/payments/confirm',
+        { paymentKey, orderId, amount },
+        {
+          headers: {
+            Authorization: `Basic ${Buffer.from(
+              `${process.env.NEXT_PUBLIC_TOSS_PAYMENTS_SECRET_KEY}:`,
+              'utf-8'
+            ).toString('base64')}`,
+          },
+        }
+      )
+      .then(async (res) => {
+        const response = await serverAxios
+          .put('/api/v1/auth/update-role')
+          .then((res) => {
+            console.log(res)
+            window.location.href = ''
+          })
+          .catch((err) => console.log(err))
+      })
+      .catch((err) => {})
 
     return response.data
   }

@@ -134,7 +134,12 @@ public class UserService {
         userDTO.setAddress(user.getAddress());
         userDTO.setAddressDetail(user.getAddressDetail());
         userDTO.setProfileImageUrl(user.getProfilePhotoUrl());
+        userDTO.setRole(user.getRole());
 
         return userDTO;
+    }
+
+    public void save(User user) {
+        userRepository.save(user);
     }
 }

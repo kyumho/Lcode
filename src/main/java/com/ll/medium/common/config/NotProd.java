@@ -3,6 +3,7 @@ package com.ll.medium.common.config;
 import com.ll.medium.post.entity.Post;
 import com.ll.medium.post.repository.PostRepository;
 import com.ll.medium.user.entity.User;
+import com.ll.medium.user.entity.UserRole;
 import com.ll.medium.user.repository.UserRepository;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +32,10 @@ public class NotProd implements ApplicationRunner {
                         .username("test" + i)
                         .password(passwordEncoder.encode("test" + i))
                         .email("test" + i + "@test.com")
+                        .role(UserRole.USER)
                         .address("서울특별시" + i)
                         .addressDetail("강남구" + i)
-                        .isPaid(true)
+                        .isPaid(false)
                         .emailVerified(true)
                         .build();
 

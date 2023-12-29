@@ -5,6 +5,15 @@ import Link from 'next/link'
 const Post = ({ post }) => (
   <Link href={`/board/${post.id}`}>
     <div className='border p-4 rounded shadow flex flex-col h-[300px]'>
+      {post.isPaid ? (
+        <span className='px-2 py-1 text-md text-emerald-400 rounded-full self-start mb-2'>
+          💸유료글
+        </span>
+      ) : (
+        <span className='px-2 py-1 text-md text-gray-400 rounded-full self-start mb-2'>
+          👍무료글
+        </span>
+      )}
       <h2 className='text-lg font-bold mb-2'>
         {post.title.length > 10
           ? post.title.substring(0, 10) + '...'

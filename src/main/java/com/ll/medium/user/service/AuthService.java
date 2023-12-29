@@ -71,7 +71,7 @@ public class AuthService {
                 .path("/")
                 .domain(".lionshop.me")
                 .secure(true)
-//                .sameSite("None") // SameSite 설정
+                .sameSite("Strict") // SameSite 설정
                 .build();
 
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
@@ -79,7 +79,7 @@ public class AuthService {
                 .path("/")
                 .domain(".lionshop.me")
                 .secure(true)
-//                .sameSite("None") // SameSite 설정
+                .sameSite("Strict") // SameSite 설정
                 .build();
 
         response.addHeader("Set-Cookie", accessTokenCookie.toString());

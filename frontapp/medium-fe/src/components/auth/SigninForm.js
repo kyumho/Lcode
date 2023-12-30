@@ -7,6 +7,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from '../../config/axios-config'
 import { useRouter } from 'next/navigation'
+import KakaoLogin from './KakaoLogin'
 
 export default function LoginForm() {
   const router = useRouter()
@@ -87,9 +88,7 @@ export default function LoginForm() {
             <button className='flex items-center justify-center w-full py-2 border border-gray-300 rounded'>
               <FaGoogle size={20} className='mr-2' /> Google로 로그인
             </button>
-            <button className='flex items-center justify-center w-full py-2 border border-gray-300 rounded'>
-              <FaCoffee size={20} className='mr-2' /> Kakao로 로그인
-            </button>
+            <KakaoLogin />
           </div>
         </div>
         <Link href='/auth/password-reset'>

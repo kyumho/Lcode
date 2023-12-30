@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import MDEditor from '@uiw/react-md-editor'
 
 const Post = ({ post }) => (
   <Link href={`/board/${post.id}`}>
@@ -20,11 +21,9 @@ const Post = ({ post }) => (
           : post.title}
       </h2>
       <div className='space-y-2'>
-        <p className='text-gray-600 flex-grow'>
-          {post.content.length > 50
-            ? post.content.substring(0, 50) + '...'
-            : post.content}
-        </p>
+        <div className='text-gray-600 flex-grow markdown-preview'>
+          <MDEditor.Markdown source={post.content} />
+        </div>
         <p className='text-sm text-gray-500 mt-4'>작성자: {post.author}</p>
         <p className='text-sm text-gray-500'>생성일자: {post.createdDate}</p>
         <p className='text-sm text-gray-500'>수정일자: {post.modifiedDate}</p>

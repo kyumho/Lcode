@@ -14,6 +14,15 @@
   }
 }
 
+@layer utilities {
+  .markdown-preview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-height: 100px; /* 적절한 최대 높이 설정 */
+  }
+}
+
 @font-face {
   font-family: 'JalnanGothic';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/JalnanGothic.woff')

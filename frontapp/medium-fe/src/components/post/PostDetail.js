@@ -11,6 +11,7 @@ import Comment from '../comment/Comment'
 import { getAllComments } from '@/utils/comment'
 import { IoLockClosed } from 'react-icons/io5'
 import Link from 'next/link'
+import MDEditor from '@uiw/react-md-editor'
 
 export default function PostDetail({ postDetail }) {
   const { user, isLoading } = useUser() // 사용자 정보와 로딩 상태를 가져옵니다.
@@ -137,9 +138,10 @@ export default function PostDetail({ postDetail }) {
           </div>
         ) : (
           <div className='p-4'>
-            <p className='text-gray-600 dark:text-gray-400'>
-              {postDetail.content}
-            </p>
+            <MDEditor.Markdown
+              source={postDetail.content}
+              className='text-gray-600 dark:text-gray-400'
+            />
             <div className='mt-4 space-y-3'>
               <div className='flex items-center text-sm text-gray-500 dark:text-gray-300'>
                 <span>Written by: {postDetail.author}</span>

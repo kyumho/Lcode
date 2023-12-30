@@ -55,3 +55,6 @@
 
 - **프론트엔드 : Vercel, 백엔드: NCP**</br>
 - [미디엄 클론 배포 링크](https://www.lionshop.me)
+- **테스트용 아이디** : <br>
+아이디, 비밀번호 동일!! test1 ~ test50 : 일반 유저 / test51 ~ test100 : 프리미엄 유저<br>
+ex) 아이디 : test1 / 비밀번호 : test1

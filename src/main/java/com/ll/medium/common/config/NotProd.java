@@ -26,7 +26,7 @@ public class NotProd implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         if (userRepository.count() == 0) {
 
-            IntStream.rangeClosed(1, 100).forEach(i -> {
+            IntStream.rangeClosed(1, 50).forEach(i -> {
                 User testUser = User
                         .builder()
                         .username("test" + i)
@@ -46,7 +46,34 @@ public class NotProd implements ApplicationRunner {
                         .content("Content " + i)
                         .user(testUser)
                         .views(0L)
+                        .isPaid(false)
                         .isPublished(true)
+                        .build();
+
+                postRepository.save(post);
+            });
+            IntStream.rangeClosed(51, 100).forEach(i -> {
+                User testUser = User
+                        .builder()
+                        .username("test" + i)
+                        .password(passwordEncoder.encode("test" + i))
+                        .email("test" + i + "@test.com")
+                        .role(UserRole.PAID)
+                        .address("서울특별시" + i)
+                        .addressDetail("강남구" + i)
+                        .isPaid(true)
+                        .emailVerified(true)
+                        .build();
+
+                userRepository.save(testUser);
+
+                Post post = Post.builder()
+                        .title("Title " + i)
+                        .content("Content " + i)
+                        .user(testUser)
+                        .views(0L)
+                        .isPublished(true)
+                        .isPaid(true)
                         .build();
 
                 postRepository.save(post);

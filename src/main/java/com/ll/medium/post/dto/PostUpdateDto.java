@@ -9,4 +9,5 @@ public class PostUpdateDto {
     private String gptAnswer;
     private Boolean isPublished;
     private Boolean isPaid;
+    private Long views;
 }

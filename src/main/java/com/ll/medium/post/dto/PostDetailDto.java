@@ -14,6 +14,7 @@ public class PostDetailDto {
     private String createdAt;
     private String updatedAt;
     private Boolean isPaid;
+    private Long views;
 
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -26,6 +27,7 @@ public class PostDetailDto {
         this.createdAt = post.getCreatedAt().format(dateFormatter);
         this.updatedAt = post.getUpdatedAt().format(dateFormatter);
         this.isPaid = post.getIsPaid();
+        this.views = post.getViews();
     }
 
 }

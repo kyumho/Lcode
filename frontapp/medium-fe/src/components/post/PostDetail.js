@@ -12,6 +12,7 @@ import { getAllComments } from '@/utils/comment'
 import { IoLockClosed } from 'react-icons/io5'
 import Link from 'next/link'
 import MDEditor from '@uiw/react-md-editor'
+import LikeButton from './LikeButton'
 
 export default function PostDetail({ postDetail }) {
   const { user, isLoading } = useUser() // 사용자 정보와 로딩 상태를 가져옵니다.
@@ -144,14 +145,22 @@ export default function PostDetail({ postDetail }) {
             />
             <div className='mt-4 space-y-3'>
               <div className='flex items-center text-sm text-gray-500 dark:text-gray-300'>
-                <span>Written by: {postDetail.author}</span>
+                <span>작성자 : {postDetail.author}</span>
               </div>
               <div className='flex items-center mt-2 text-sm text-gray-500 dark:text-gray-300'>
-                <span>Created at: {postDetail.createdAt}</span>
+                <span>조회수 : {postDetail.views}</span>
               </div>
               <div className='flex items-center mt-2 text-sm text-gray-500 dark:text-gray-300'>
-                <span>Updated at: {postDetail.updatedAt}</span>
+                <span>작성일시 : {postDetail.createdAt}</span>
               </div>
+              <div className='flex items-center mt-2 text-sm text-gray-500 dark:text-gray-300'>
+                <span>업데이트 : {postDetail.updatedAt}</span>
+              </div>
+              {user && (
+                <div className='mt-4'>
+                  <LikeButton user={user} postDetail={postDetail} />
+                </div>
+              )}
               {user && !isLoading && user.username === postDetail.author && (
                 <div className='mt-2 flex space-x-2'>
                   <button

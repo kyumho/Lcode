@@ -1,5 +1,7 @@
 package com.ll.medium.post.service;
 
+import com.ll.medium.like.dto.LikeRequestDto;
+import com.ll.medium.like.repository.LikeRepository;
 import com.ll.medium.post.dto.PostDetailDto;
 import com.ll.medium.post.dto.PostPageDto;
 import com.ll.medium.post.dto.PostUpdateDto;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final LikeRepository likeRepository;
 
     @Transactional
     public void save(final Post post) {
@@ -33,7 +36,12 @@ public class PostService {
     public Page<PostPageDto> findAll(Pageable pageable) {
         Pageable sortedByCreatedAtDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
                 Sort.by("createdAt").descending());
-        return postRepository.findAllByIsPublishedTrue(sortedByCreatedAtDesc).map(PostPageDto::entityToDto);
+
+        return postRepository.findAllByIsPublishedTrue(sortedByCreatedAtDesc)
+                .map(post -> {
+                    int likesCount = likeRepository.countByPostIdAndLiked(post.getId(), true);
+                    return PostPageDto.entityToDto(post, likesCount);
+                });
     }
 
     public Page<PostPageDto> findRecentPosts(int page) {
@@ -43,45 +51,59 @@ public class PostService {
         int end = Math.min(start + 9, recentPosts.size());
 
         List<PostPageDto> pagedPosts = recentPosts.subList(start, end).stream()
-                .map(PostPageDto::entityToDto)
+                .map(post -> {
+                    int likesCount = likeRepository.countByPostIdAndLiked(post.getId(), true);
+                    return PostPageDto.entityToDto(post, likesCount);
+                })
                 .collect(Collectors.toList());
 
         return new PageImpl<>(pagedPosts, PageRequest.of(page, 9), recentPosts.size());
     }
 
     public Page<PostPageDto> getNotPublishedPostsByUser(User user, Pageable pageable) {
-        Pageable sortedByCreatedAtDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
-        Page<Post> postsByIsPublishedFalseAndUser = postRepository.findByIsPublishedFalseAndUser(user,
-                sortedByCreatedAtDesc);
+        Pageable sortedByCreatedAtDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                Sort.by("createdAt").descending());
+        Page<Post> posts = postRepository.findByIsPublishedFalseAndUser(user, sortedByCreatedAtDesc);
 
-        return postsByIsPublishedFalseAndUser.map(PostPageDto::entityToDto);
+        return posts.map(post -> {
+            int likesCount = likeRepository.countByPostIdAndLiked(post.getId(), true);
+            return PostPageDto.entityToDto(post, likesCount);
+        });
     }
 
     public Page<PostPageDto> getPublishedPostsByUser(User user, Pageable pageable) {
-        Pageable sortedByCreatedAtDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
-        Page<Post> postsByIsPublishedTrueAndUser = postRepository.findByIsPublishedTrueAndUser(user,
-                sortedByCreatedAtDesc);
+        Pageable sortedByCreatedAtDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                Sort.by("createdAt").descending());
+        Page<Post> posts = postRepository.findByIsPublishedTrueAndUser(user, sortedByCreatedAtDesc);
 
-        return postsByIsPublishedTrueAndUser.map(PostPageDto::entityToDto);
+        return posts.map(post -> {
+            int likesCount = likeRepository.countByPostIdAndLiked(post.getId(), true);
+            return PostPageDto.entityToDto(post, likesCount);
+        });
     }
-
     @Transactional
     public void update(Long postId, PostUpdateDto postUpdateDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
 
-        post.update(postUpdateDto.getTitle(), postUpdateDto.getContent(), postUpdateDto.getIsPublished(), postUpdateDto.getIsPaid(), postUpdateDto.getGptAnswer());
+        post.update(postUpdateDto.getTitle(), postUpdateDto.getContent(), postUpdateDto.getIsPublished(),
+                postUpdateDto.getIsPaid(), postUpdateDto.getGptAnswer());
     }
 
+    @Transactional
     public ResponseDto<PostDetailDto> getPost(Long id) {
-        PostDetailDto postDetailDto = postRepository.findById(id)
-                .map(PostDetailDto::new)
+        Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+
+        // 조회수 증가
+        post.incrementViews();
+
+        // Post 엔티티를 PostDetailDto로 변환
+        PostDetailDto postDetailDto = new PostDetailDto(post);
 
         return ResponseDto.<PostDetailDto>builder()
                 .successMessage("게시글 조회에 성공했습니다.")
                 .objectData(postDetailDto).build();
-
     }
 
     @Transactional
@@ -91,6 +113,5 @@ public class PostService {
 
         postRepository.delete(post);
     }
-
 
 }

@@ -42,6 +42,8 @@ public class Post extends DateEntity {
     @Column(columnDefinition = "LONGTEXT")
     private String gptAnswer;
 
+    private Long views = 0L;
+
     @Column(name = "is_published")
     private Boolean isPublished;
 
@@ -51,6 +53,10 @@ public class Post extends DateEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private User user;
+
+    public void incrementViews() {
+        this.views++;
+    }
 
     public void update(String title, String content, boolean isPublished,boolean isPaid, String gptAnswer) {
         this.title = title;

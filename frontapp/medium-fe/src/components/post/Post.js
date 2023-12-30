@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import MDEditor from '@uiw/react-md-editor'
+import { AiFillHeart } from 'react-icons/ai'
 
 const Post = ({ post }) => (
   <Link href={`/board/${post.id}`}>
@@ -27,6 +28,14 @@ const Post = ({ post }) => (
         <p className='text-sm text-gray-500 mt-4'>작성자: {post.author}</p>
         <p className='text-sm text-gray-500'>생성일자: {post.createdDate}</p>
         <p className='text-sm text-gray-500'>수정일자: {post.modifiedDate}</p>
+        <p className='text-sm text-gray-500'>조회수: {post.views}</p>
+        <div className='flex items-center text-sm text-gray-500'>
+          <AiFillHeart className='text-red-500 mr-1' />
+          <span className='mr-2'>좋아요:</span>
+          <span className='badge badge-secondary badge-outline'>
+            {post.likesCount}
+          </span>
+        </div>
       </div>
     </div>
   </Link>

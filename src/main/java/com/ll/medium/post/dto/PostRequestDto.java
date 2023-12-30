@@ -10,4 +10,5 @@ public class PostRequestDto {
     private Boolean isPublished;
     private Boolean isPaid;
     private String gptAnswer;
+    private Long views;
 }

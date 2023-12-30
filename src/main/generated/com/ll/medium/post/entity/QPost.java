@@ -44,6 +44,8 @@ public class QPost extends EntityPathBase<Post> {
 
     public final com.ll.medium.user.entity.QUser user;
 
+    public final NumberPath<Long> views = createNumber("views", Long.class);
+
     public QPost(String variable) {
         this(Post.class, forVariable(variable), INITS);
     }

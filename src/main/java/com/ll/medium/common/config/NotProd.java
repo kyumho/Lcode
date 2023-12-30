@@ -45,6 +45,7 @@ public class NotProd implements ApplicationRunner {
                         .title("Title " + i)
                         .content("Content " + i)
                         .user(testUser)
+                        .views(0L)
                         .isPublished(true)
                         .build();
 

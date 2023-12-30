@@ -21,6 +21,7 @@ public class PostDto {
     private Boolean isPaid;
     private Boolean isPublished;
     private String gptAnswer;
+    private Long views;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
@@ -32,6 +33,7 @@ public class PostDto {
         this.title = dto.getTitle();
         this.content = dto.getContent();
         this.gptAnswer = dto.getGptAnswer();
+        this.views = dto.getViews();
     }
 
     public PostDto(final Post post) {
@@ -44,6 +46,7 @@ public class PostDto {
         this.gptAnswer = post.getGptAnswer();
         this.createdDate = post.getCreatedAt();
         this.modifiedDate = post.getUpdatedAt();
+        this.views = post.getViews();
     }
 
     public static Post toEntity(final PostDto dto) {
@@ -55,6 +58,7 @@ public class PostDto {
                 .isPaid(dto.getIsPaid())
                 .isPublished(dto.getIsPublished())
                 .gptAnswer(dto.getGptAnswer())
+                .views(dto.getViews())
                 .build();
     }
 }

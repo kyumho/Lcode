@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import kakaoLoginImage from '../../../public/kakao_login.png'
+import Image from 'next/image'
 import { FaCoffee } from 'react-icons/fa'
 
 export default function KakaoLogin() {
@@ -40,8 +42,13 @@ export default function KakaoLogin() {
   return (
     <button
       onClick={handleLogin}
-      className='flex items-center justify-center w-full py-2 border border-gray-300 rounded'>
-      <FaCoffee size={20} className='mr-2' /> Kakao로 로그인
+      className='flex items-center justify-center w-full py-2 rounded'>
+      <Image
+        src={kakaoLoginImage}
+        alt='Kakao로 로그인'
+        width={500}
+        height={50}
+      />
     </button>
   )
 }

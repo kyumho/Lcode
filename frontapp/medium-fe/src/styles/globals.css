@@ -19,7 +19,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-height: 100px; /* 적절한 최대 높이 설정 */
+    max-height: 60px; /* 적절한 최대 높이 설정 */
   }
 }
 

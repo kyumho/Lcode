@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-//@Profile("!prod")
+@Profile("!prod")
 public class NotProd implements ApplicationRunner {
 
     private final PostRepository postRepository;

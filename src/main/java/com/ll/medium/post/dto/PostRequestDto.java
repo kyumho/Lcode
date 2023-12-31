@@ -10,6 +10,6 @@ public class PostRequestDto {
     private Boolean isPublished;
     private Boolean isPaid;
     private String gptAnswer;
-    private Long views;
+    private Long views = 0L; // 여기에 기본값 설정
     private int likesCount;
 }

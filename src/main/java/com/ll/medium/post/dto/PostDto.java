@@ -61,7 +61,7 @@ public class PostDto {
                 .isPaid(dto.getIsPaid())
                 .isPublished(dto.getIsPublished())
                 .gptAnswer(dto.getGptAnswer())
-                .views(dto.getViews())
+                .views(dto.getViews() != null ? dto.getViews() : 0L) // null 체크
                 .likesCount(dto.getLikesCount())
                 .build();
     }

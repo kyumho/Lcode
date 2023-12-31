@@ -22,6 +22,7 @@ public class PostDto {
     private Boolean isPublished;
     private String gptAnswer;
     private Long views;
+    private int likesCount;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
@@ -32,6 +33,7 @@ public class PostDto {
         this.isPublished = dto.getIsPublished();
         this.title = dto.getTitle();
         this.content = dto.getContent();
+        this.likesCount = dto.getLikesCount();
         this.gptAnswer = dto.getGptAnswer();
         this.views = dto.getViews();
     }
@@ -47,6 +49,7 @@ public class PostDto {
         this.createdDate = post.getCreatedAt();
         this.modifiedDate = post.getUpdatedAt();
         this.views = post.getViews();
+        this.likesCount = post.getLikesCount();
     }
 
     public static Post toEntity(final PostDto dto) {
@@ -59,6 +62,7 @@ public class PostDto {
                 .isPublished(dto.getIsPublished())
                 .gptAnswer(dto.getGptAnswer())
                 .views(dto.getViews())
+                .likesCount(dto.getLikesCount())
                 .build();
     }
 }

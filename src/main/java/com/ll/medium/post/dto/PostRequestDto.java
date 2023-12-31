@@ -11,4 +11,5 @@ public class PostRequestDto {
     private Boolean isPaid;
     private String gptAnswer;
     private Long views;
+    private int likesCount;
 }

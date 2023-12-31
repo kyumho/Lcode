@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final LikeRepository likeRepository;
 
     @Transactional
     public void save(final Post post) {
@@ -39,10 +38,7 @@ public class PostService {
         Page<Post> postPage = postRepository.findAllWithFilters(pageable, sortCode, kwType, keyword);
 
         // 결과를 PostPageDto로 매핑합니다.
-        return postPage.map(post -> {
-            int likesCount = likeRepository.countByPostIdAndLiked(post.getId(), true);
-            return PostPageDto.entityToDto(post, likesCount);
-        });
+        return postPage.map(PostPageDto::entityToDto);
     }
 
 
@@ -53,10 +49,7 @@ public class PostService {
         int end = Math.min(start + 9, recentPosts.size());
 
         List<PostPageDto> pagedPosts = recentPosts.subList(start, end).stream()
-                .map(post -> {
-                    int likesCount = likeRepository.countByPostIdAndLiked(post.getId(), true);
-                    return PostPageDto.entityToDto(post, likesCount);
-                })
+                .map(PostPageDto::entityToDto)
                 .collect(Collectors.toList());
 
         return new PageImpl<>(pagedPosts, PageRequest.of(page, 9), recentPosts.size());
@@ -67,22 +60,18 @@ public class PostService {
                 Sort.by("createdAt").descending());
         Page<Post> posts = postRepository.findByIsPublishedFalseAndUser(user, sortedByCreatedAtDesc);
 
-        return posts.map(post -> {
-            int likesCount = likeRepository.countByPostIdAndLiked(post.getId(), true);
-            return PostPageDto.entityToDto(post, likesCount);
-        });
+        return posts.map(PostPageDto::entityToDto);
     }
+
 
     public Page<PostPageDto> getPublishedPostsByUser(User user, Pageable pageable) {
         Pageable sortedByCreatedAtDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
                 Sort.by("createdAt").descending());
         Page<Post> posts = postRepository.findByIsPublishedTrueAndUser(user, sortedByCreatedAtDesc);
 
-        return posts.map(post -> {
-            int likesCount = likeRepository.countByPostIdAndLiked(post.getId(), true);
-            return PostPageDto.entityToDto(post, likesCount);
-        });
+        return posts.map(PostPageDto::entityToDto);
     }
+
 
     @Transactional
     public void update(Long postId, PostUpdateDto postUpdateDto) {

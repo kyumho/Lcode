@@ -15,6 +15,7 @@ public class PostDetailDto {
     private String updatedAt;
     private Boolean isPaid;
     private Long views;
+    private int likesCount;
 
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -28,6 +29,7 @@ public class PostDetailDto {
         this.updatedAt = post.getUpdatedAt().format(dateFormatter);
         this.isPaid = post.getIsPaid();
         this.views = post.getViews();
+        this.likesCount = post.getLikesCount();
     }
 
 }

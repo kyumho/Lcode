@@ -25,7 +25,7 @@ public class PostPageDto {
     private Long views;
     private int likesCount;
 
-    public static PostPageDto entityToDto(final Post post, int likesCount) {
+    public static PostPageDto entityToDto(final Post post) {
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -40,7 +40,7 @@ public class PostPageDto {
                 .modifiedDate(post.getUpdatedAt().format(dateFormatter))
                 .author(post.getUser().getUsername())
                 .views(post.getViews())
-                .likesCount(likesCount)
+                .likesCount(post.getLikesCount())
                 .build();
     }
 }

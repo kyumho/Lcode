@@ -36,7 +36,9 @@ export default function AllPost() {
       keyword
     )}`
     try {
-      const response = await axios.get(`/api/v1/post/list?page=0&${query}`)
+      const response = await axios.get(
+        `/api/v1/post/list?page=${page}&${query}`
+      )
       setPosts(response.data.objectData.content)
       setTotalPages(response.data.objectData.totalPages)
     } catch (error) {
@@ -45,9 +47,12 @@ export default function AllPost() {
   }
 
   useEffect(() => {
+    const query = `sortCode=${sortCode}&kwType=${kwType}&kw=${encodeURIComponent(
+      keyword
+    )}`
     const getPost = async () => {
       const response = await axios
-        .get(`/api/v1/post/list?page=${page}`)
+        .get(`/api/v1/post/list?page=${page}&${query}`)
         .then((res) => {
           const post = res.data.objectData
           setPosts(post.content)

@@ -19,10 +19,12 @@ export default function SearchPosts({
           className='select select-bordered select-sm w-full max-w-xs'
           value={sortCode}
           onChange={(e) => setSortCode(e.target.value)}>
-          <option value='idDesc'>최신순</option>
-          <option value='hitAsc'>오래된순</option>
+          <option value='createdAtDesc'>최신순</option>
+          <option value='createdAtAsc'>오래된순</option>
+          <option value='hitAsc'>조회수 낮은순</option>
           <option value='hitDesc'>조회수 높은순</option>
           <option value='likeCountAsc'>좋아요 낮은순</option>
+          <option value='likeCountDesc'>좋아요 높은순</option>
         </select>
         <select
           className='select select-bordered select-sm w-full max-w-xs'

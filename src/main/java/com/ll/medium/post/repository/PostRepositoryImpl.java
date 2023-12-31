@@ -84,17 +84,23 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         Sort sort = Sort.by("createdAt").descending();
 
         switch (sortCode) {
+            case "createdAtAsc":
+                sort = Sort.by("createdAt").ascending();
+                break;
+            case "createdAtDesc":
+                sort = Sort.by("createdAt").descending();
+                break;
             case "hitAsc":
                 sort = Sort.by("views").ascending();
                 break;
             case "hitDesc":
                 sort = Sort.by("views").descending();
                 break;
-            case "likeAsc":
+            case "likeCountAsc":
                 // 추천수 오름차순 정렬 로직
                 sort = Sort.by("likesCount").ascending();
                 break;
-            case "likeDesc":
+            case "likeCountDesc":
                 // 추천수 내림차순 정렬 로직
                 sort = Sort.by("likesCount").descending();
                 break;

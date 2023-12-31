@@ -33,16 +33,18 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public Page<PostPageDto> findAll(Pageable pageable) {
-        Pageable sortedByCreatedAtDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
-                Sort.by("createdAt").descending());
+    public Page<PostPageDto> findAll(Pageable pageable, String sortCode, String kwType, String keyword) {
 
-        return postRepository.findAllByIsPublishedTrue(sortedByCreatedAtDesc)
-                .map(post -> {
-                    int likesCount = likeRepository.countByPostIdAndLiked(post.getId(), true);
-                    return PostPageDto.entityToDto(post, likesCount);
-                });
+        // 동적 정렬 및 검색 조건을 처리하는 사용자 정의 메서드를 호출합니다.
+        Page<Post> postPage = postRepository.findAllWithFilters(pageable, sortCode, kwType, keyword);
+
+        // 결과를 PostPageDto로 매핑합니다.
+        return postPage.map(post -> {
+            int likesCount = likeRepository.countByPostIdAndLiked(post.getId(), true);
+            return PostPageDto.entityToDto(post, likesCount);
+        });
     }
+
 
     public Page<PostPageDto> findRecentPosts(int page) {
         List<Post> recentPosts = postRepository.findTop30ByIsPublishedTrueOrderByCreatedAtDesc();
@@ -81,6 +83,7 @@ public class PostService {
             return PostPageDto.entityToDto(post, likesCount);
         });
     }
+
     @Transactional
     public void update(Long postId, PostUpdateDto postUpdateDto) {
         Post post = postRepository.findById(postId)

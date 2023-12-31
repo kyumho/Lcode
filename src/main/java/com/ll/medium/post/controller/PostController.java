@@ -41,11 +41,22 @@ public class PostController {
     private final UserService userService;
 
     @GetMapping("/list")
-    public ResponseEntity<?> list(@RequestParam int page) {
+    public ResponseEntity<?> list(@RequestParam int page,
+                                  @RequestParam(required = false) String sortCode,
+                                  @RequestParam(required = false) String kwType,
+                                  @RequestParam(required = false) String kw) {
+
         Pageable pageable = PageRequest.of(page, 9);
-        ResponseDto<Page<PostPageDto>> response;
-        Page<PostPageDto> postPageDtoList = postService.findAll(pageable);
-        response = ResponseDto.<Page<PostPageDto>>builder().objectData(postPageDtoList).build();
+
+        // Service 계층의 findAll 메서드를 호출하여, 필터링과 정렬이 적용된 결과를 가져옵니다.
+        Page<PostPageDto> postPageDtoList = postService.findAll(pageable, sortCode, kwType, kw);
+
+        // 결과를 ResponseDto 객체로 래핑합니다.
+        ResponseDto<Page<PostPageDto>> response = ResponseDto.<Page<PostPageDto>>builder()
+                .objectData(postPageDtoList)
+                .build();
+
+        // 응답을 반환합니다.
         return ResponseEntity.ok(response);
     }
 

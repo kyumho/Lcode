@@ -8,6 +8,7 @@ import com.ll.medium.post.entity.Post;
 import com.ll.medium.post.repository.PostRepository;
 import com.ll.medium.user.entity.User;
 import com.ll.medium.user.repository.UserRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,16 +44,29 @@ public class LikeService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid post ID"));
 
-        Like like = likeRepository.findByUserIdAndPostId(userId, postId)
-                .orElse(new Like(user, post, false)); // 좋아요가 없는 경우
+        Optional<Like> likeOpt = likeRepository.findByUserIdAndPostId(userId, postId);
+        Like like;
 
-        like.toggleLiked(); // 좋아요 상태 토글
+        if (likeOpt.isPresent()) {
+            // 이미 좋아요가 존재하는 경우, 상태 토글
+            like = likeOpt.get();
+            like.toggleLiked();
 
-        likeRepository.save(like); // 상태 변경 저장
+            if (!like.isLiked()) {
+                post.decrementLikesCount();
+            } else {
+                post.incrementLikesCount();
+            }
+        } else {
+            // 좋아요가 존재하지 않는 경우, 새로 생성
+            like = new Like(user, post, true);
+            post.incrementLikesCount();
+        }
 
-        int likesCount = likeRepository.countByPostIdAndLiked(postId, true);
-        return new LikeStatus(like.isLiked(), likesCount);
+        likeRepository.save(like);
+        postRepository.save(post);
+
+        return new LikeStatus(like.isLiked(), post.getLikesCount());
     }
-
 
 }

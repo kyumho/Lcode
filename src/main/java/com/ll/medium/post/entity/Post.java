@@ -44,6 +44,8 @@ public class Post extends DateEntity {
 
     private Long views = 0L;
 
+    private int likesCount = 0;
+
     @Column(name = "is_published")
     private Boolean isPublished;
 
@@ -58,6 +60,14 @@ public class Post extends DateEntity {
         this.views++;
     }
 
+    public void incrementLikesCount() {
+        this.likesCount++;
+    }
+
+    public void decrementLikesCount() {
+        this.likesCount--;
+    }
+
     public void update(String title, String content, boolean isPublished,boolean isPaid, String gptAnswer) {
         this.title = title;
         this.content = content;
@@ -65,4 +75,5 @@ public class Post extends DateEntity {
         this.isPaid = isPaid;
         this.gptAnswer = gptAnswer;
     }
+
 }

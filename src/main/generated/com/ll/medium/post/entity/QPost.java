@@ -37,6 +37,8 @@ public class QPost extends EntityPathBase<Post> {
 
     public final BooleanPath isPublished = createBoolean("isPublished");
 
+    public final NumberPath<Integer> likesCount = createNumber("likesCount", Integer.class);
+
     public final StringPath title = createString("title");
 
     //inherited

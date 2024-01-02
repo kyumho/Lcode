@@ -42,13 +42,16 @@ public class Post extends DateEntity {
     @Column(columnDefinition = "LONGTEXT")
     private String gptAnswer;
 
+    @Builder.Default
     private Long views = 0L;
 
+    @Builder.Default
     private int likesCount = 0;
 
     @Column(name = "is_published")
     private Boolean isPublished;
 
+    @Builder.Default
     private Boolean isPaid = false;
 
     @ManyToOne(fetch = LAZY)

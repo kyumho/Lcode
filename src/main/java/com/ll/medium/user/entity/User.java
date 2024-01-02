@@ -16,6 +16,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,8 +60,10 @@ public class User extends DateEntity {
     @JsonIgnore
     private SocialProvider provider;
 
+    @Builder.Default
     private boolean isPaid = false;  // 결제 여부를 나타내는 필드
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role = UserRole.USER;
@@ -75,6 +78,9 @@ public class User extends DateEntity {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    @Builder.Default
+    private BigDecimal cash = BigDecimal.ZERO; // 유저의 캐시
+
     @JsonIgnore
     private boolean emailVerified;
 
@@ -83,6 +89,10 @@ public class User extends DateEntity {
     @JoinColumn(name = "refresh_token_id")
     @JsonIgnore
     private RefreshToken refreshToken;
+
+    public void addCash(BigDecimal amount) {
+        this.cash = this.cash.add(amount);
+    }
 
     public void verifyEmail() {
         this.emailVerified = true;

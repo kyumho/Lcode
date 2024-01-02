@@ -28,6 +28,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath addressDetail = createString("addressDetail");
 
+    public final NumberPath<java.math.BigDecimal> cash = createNumber("cash", java.math.BigDecimal.class);
+
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
     public final StringPath email = createString("email");

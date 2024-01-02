@@ -5,6 +5,7 @@ import com.ll.medium.post.repository.PostRepository;
 import com.ll.medium.revenue.entity.Revenue;
 import com.ll.medium.revenue.repository.RevenueRepository;
 import com.ll.medium.user.entity.User;
+import com.ll.medium.user.entity.UserRole;
 import com.ll.medium.user.repository.UserRepository;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -77,9 +78,9 @@ public class MonthlyEarningScheduler {
         }
     }
 
-    private int getTotalPremiumUsers() {
+    public int getTotalPremiumUsers() {
         // 'PAID' 역할을 가진 사용자 수 조회
-        return userRepository.countByRole("PAID");
+        return userRepository.countByRole(UserRole.PAID);
     }
 
     private Map<User, Long> getAuthorViews() {
@@ -87,7 +88,7 @@ public class MonthlyEarningScheduler {
         Map<User, Long> authorViews = new HashMap<>();
 
         // 'PAID' 역할을 가진 사용자가 작성한 게시글 조회
-        List<Post> posts = postRepository.findByUserRole("PAID");
+        List<Post> posts = postRepository.findByUserRole(UserRole.PAID);
 
         // 각 사용자별로 조회수 합산
         for (Post post : posts) {

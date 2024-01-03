@@ -2,6 +2,7 @@ package com.ll.medium.common.config;
 
 import com.ll.medium.post.repository.PostRepository;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +20,8 @@ public class MonthlyEarningSchedulerTest {
     private MonthlyEarningScheduler monthlyEarningScheduler;
 
     @Test
-    public void testDistributeEarningsIntegration() {
+    @DisplayName("정산 기능 잘 되는지 테스트")
+    public void testDistributeEarnings() {
        monthlyEarningScheduler.distributeEarnings();
     }
 }

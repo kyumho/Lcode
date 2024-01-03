@@ -25,11 +25,273 @@
 
 <hr>
 
-## ERD (업데이트 예정)
+## ERD
 
-![img_3.png](ERD.png)
+![img.png](ERD.png)
 
-## 4. 프로젝트 진행 상황
+## 파일 구조
+
+**[프론트엔드]**
+```bash
+📦src
+ ┣ 📂api
+ ┣ 📂app
+ ┃ ┣ 📂ai
+ ┃ ┃ ┗ 📜page.js
+ ┃ ┣ 📂api
+ ┃ ┃ ┗ 📂confirmPayment
+ ┃ ┃ ┃ ┗ 📜route.js
+ ┃ ┣ 📂auth
+ ┃ ┃ ┣ 📂signin
+ ┃ ┃ ┃ ┣ 📂kakao
+ ┃ ┃ ┃ ┃ ┗ 📂callback
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜page.js
+ ┃ ┃ ┃ ┗ 📜page.js
+ ┃ ┃ ┗ 📂signup
+ ┃ ┃ ┃ ┗ 📜page.js
+ ┃ ┣ 📂board
+ ┃ ┃ ┣ 📂write
+ ┃ ┃ ┃ ┣ 📂[id]
+ ┃ ┃ ┃ ┃ ┗ 📜page.js
+ ┃ ┃ ┃ ┗ 📜page.js
+ ┃ ┃ ┣ 📂[id]
+ ┃ ┃ ┃ ┗ 📜page.js
+ ┃ ┃ ┗ 📜page.js
+ ┃ ┣ 📂membership
+ ┃ ┃ ┣ 📂fail
+ ┃ ┃ ┃ ┗ 📜page.js
+ ┃ ┃ ┣ 📂success
+ ┃ ┃ ┃ ┗ 📜page.js
+ ┃ ┃ ┗ 📜page.js
+ ┃ ┣ 📂mypage
+ ┃ ┃ ┣ 📂mycomment
+ ┃ ┃ ┃ ┗ 📜page.js
+ ┃ ┃ ┣ 📂mypost
+ ┃ ┃ ┃ ┗ 📜page.js
+ ┃ ┃ ┣ 📂myrecommend
+ ┃ ┃ ┃ ┗ 📜page.js
+ ┃ ┃ ┣ 📂userinfo
+ ┃ ┃ ┃ ┣ 📂delete
+ ┃ ┃ ┃ ┃ ┗ 📜page.js
+ ┃ ┃ ┃ ┣ 📂edit
+ ┃ ┃ ┃ ┃ ┗ 📜page.js
+ ┃ ┃ ┃ ┗ 📜page.js
+ ┃ ┃ ┣ 📜layout.js
+ ┃ ┃ ┗ 📜page.js
+ ┃ ┣ 📜layout.js
+ ┃ ┗ 📜page.js
+ ┣ 📂components
+ ┃ ┣ 📂auth
+ ┃ ┃ ┣ 📜DeleteUser.js
+ ┃ ┃ ┣ 📜EditUser.js
+ ┃ ┃ ┣ 📜KakaoLogin.js
+ ┃ ┃ ┣ 📜KakaoSignInCallback.js
+ ┃ ┃ ┣ 📜MyPageUserInfo.js
+ ┃ ┃ ┣ 📜SigninForm.js
+ ┃ ┃ ┗ 📜SignupForm.js
+ ┃ ┣ 📂comment
+ ┃ ┃ ┗ 📜Comment.js
+ ┃ ┣ 📂membership
+ ┃ ┃ ┣ 📜Checkout.js
+ ┃ ┃ ┣ 📜MembershipInfo.js
+ ┃ ┃ ┗ 📜SuccessPage.js
+ ┃ ┣ 📂post
+ ┃ ┃ ┣ 📜AllPost.js
+ ┃ ┃ ┣ 📜EditPost.js
+ ┃ ┃ ┣ 📜LikeButton.js
+ ┃ ┃ ┣ 📜MyPost.js
+ ┃ ┃ ┣ 📜Pagination.js
+ ┃ ┃ ┣ 📜Post.js
+ ┃ ┃ ┣ 📜PostDetail.js
+ ┃ ┃ ┣ 📜RecentPost.js
+ ┃ ┃ ┣ 📜SearchPost.js
+ ┃ ┃ ┗ 📜WritePost.js
+ ┃ ┗ 📂ui
+ ┃ ┃ ┣ 📜Chatbot.js
+ ┃ ┃ ┣ 📜CustomToast.js
+ ┃ ┃ ┣ 📜Dropdown.js
+ ┃ ┃ ┣ 📜MyPageSidebar.js
+ ┃ ┃ ┣ 📜Navbar.js
+ ┃ ┃ ┗ 📜ProfilePicture.js
+ ┣ 📂config
+ ┃ ┗ 📜axios-config.js
+ ┣ 📂constants
+ ┃ ┗ 📜auth.js
+ ┣ 📂context
+ ┃ ┗ 📜TanStackProvider.js
+ ┣ 📂hooks
+ ┃ ┗ 📜useUser.js
+ ┣ 📂styles
+ ┃ ┣ 📜globals.css
+ ┃ ┗ 📜toss.css
+ ┗ 📂utils
+ ┃ ┣ 📜comment.js
+ ┃ ┣ 📜openai.js
+ ┃ ┣ 📜post.js
+ ┃ ┗ 📜regex.js
+```
+[백엔드]
+```bash
+📦src
+ ┣ 📂main
+ ┃ ┣ 📂generated
+ ┃ ┃ ┗ 📂com
+ ┃ ┃ ┃ ┗ 📂ll
+ ┃ ┃ ┃ ┃ ┗ 📂medium
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂comment
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜QComment.java
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂common
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜QDateEntity.java
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂like
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜QLike.java
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂post
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜QPost.java
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂revenue
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜QRevenue.java
+ ┃ ┃ ┃ ┃ ┃ ┗ 📂user
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜QRefreshToken.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜QUser.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜QVerificationToken.java
+ ┃ ┣ 📂java
+ ┃ ┃ ┗ 📂com
+ ┃ ┃ ┃ ┗ 📂ll
+ ┃ ┃ ┃ ┃ ┗ 📂medium
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂comment
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜CommentController.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CommentDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CommentSaveDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜CommentUpdateDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜Comment.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜CommentRepository.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜CommentService.java
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂common
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂config
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜MonthlyEarningScheduler.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜NotProd.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SecurityConfig.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜WebConfig.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CorsCheckController.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜HomeController.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜SearchController.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ErrorResponseDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜ResponseDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜DateEntity.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂exception
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜DataNotFoundException.java
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂like
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜LikeController.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜LikeRequestDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜LikeStatus.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜LikeStatusDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜Like.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜LikeRepository.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜LikeService.java
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂post
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜PostController.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PostDetailDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PostDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PostPageDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PostRequestDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜PostUpdateDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜Post.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PostRepository.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜PostRepositoryCustom.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜PostRepositoryImpl.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜PostService.java
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂revenue
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜Revenue.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜RevenueRepository.java
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂user
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂config
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜EmailConfig.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜MailProperties.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜WebClientConfig.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AuthController.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜EmailController.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜OAuthController.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserController.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CheckUserExistDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜KakaoCodeDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜KakaoPropertiesDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜KakaoTokenResponseDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜KakaoUserInfoDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜LoginRequestDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜LoginResponseDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserInfoDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserRegisterDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserUpdateDto.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜RefreshToken.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SocialProvider.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜User.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserRole.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜VerificationToken.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂exception
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserNotFoundException.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜RefreshTokenRepository.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserRepository.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜VerificationTokenRepository.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂security
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜JwtAuthenticationFilter.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜JwtTokenUtil.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserDetailsServiceImpl.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserPrinciple.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AuthService.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DevAuthService.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜EmailService.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜KakaoOAuth2Service.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ProdAuthService.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserService.java
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜MediumApplication.java
+ ┃ ┗ 📂resources
+ ┃ ┃ ┣ 📂templates
+ ┃ ┃ ┣ 📜application-db.yml
+ ┃ ┃ ┣ 📜application-devdb.yml
+ ┃ ┃ ┣ 📜application-mail.yml
+ ┃ ┃ ┣ 📜application-security.yml
+ ┃ ┃ ┗ 📜application.yml
+ ┗ 📂test
+ ┃ ┗ 📂java
+ ┃ ┃ ┗ 📂com
+ ┃ ┃ ┃ ┗ 📂ll
+ ┃ ┃ ┃ ┃ ┗ 📂medium
+ ┃ ┃ ┃ ┃ ┃ ┗ 📂common
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂config
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜MonthlyEarningSchedulerTest.java
+```
+
+
+## 4. 기능
 
 
 <hr>
@@ -48,10 +310,8 @@
 - [x] **조회수 기능**
 - [x] **추천 기능**
 - [x] **검색 기능**
+- [x] **멤버쉽 정산 기능**
 
-### 구현할 기능
-
-- [] **멤버쉽 정산 기능**
 
 ### 추가 기능
 

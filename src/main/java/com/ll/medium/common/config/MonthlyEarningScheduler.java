@@ -88,7 +88,7 @@ public class MonthlyEarningScheduler {
         Map<User, Long> authorViews = new HashMap<>();
 
         // 'PAID' 역할을 가진 사용자가 작성한 게시글 조회
-        List<Post> posts = postRepository.findByUserRole(UserRole.PAID);
+        List<Post> posts = postRepository.findByUser_Role(UserRole.PAID);
 
         // 각 사용자별로 조회수 합산
         for (Post post : posts) {

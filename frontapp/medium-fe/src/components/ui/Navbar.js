@@ -82,6 +82,7 @@ export default function Navbar() {
       {isLoading ? null : user ? (
         <div className='hidden lg:flex lg:space-x-4 lg:justify-around'>
           <p className='flex my-3'>
+            보유캐시 : {user.cash} 원
             <p
               className={`mx-4 ${
                 user.role === 'PAID' ? 'text-emerald-400' : 'text-gray-400'
@@ -104,7 +105,6 @@ export default function Navbar() {
               로그아웃
             </button>
           </Link>
-
           <Image
             src={
               user.profileImageUrl ? user.profileImageUrl : defaultProfileImage

@@ -14,5 +14,6 @@ public class MediumApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MediumApplication.class, args);
+
     }
 }

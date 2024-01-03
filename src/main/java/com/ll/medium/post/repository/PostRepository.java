@@ -12,7 +12,7 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
     Page<Post> findAllByIsPublishedTrue(Pageable pageable);
 
     // 'PAID' 역할을 가진 사용자가 작성한 게시글 찾기
-    List<Post> findByUserRole(UserRole role);
+    List<Post> findByUser_Role(UserRole role);
 
     Page<Post> findByIsPublishedFalseAndUser(User user, Pageable pageable);
 

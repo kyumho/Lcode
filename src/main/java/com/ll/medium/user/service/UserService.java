@@ -134,6 +134,7 @@ public class UserService {
         userDTO.setAddress(user.getAddress());
         userDTO.setAddressDetail(user.getAddressDetail());
         userDTO.setProfileImageUrl(user.getProfilePhotoUrl());
+        userDTO.setCash(user.getCash());
         userDTO.setRole(user.getRole());
 
         return userDTO;

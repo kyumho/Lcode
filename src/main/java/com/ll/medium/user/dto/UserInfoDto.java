@@ -1,6 +1,7 @@
 package com.ll.medium.user.dto;
 
 import com.ll.medium.user.entity.UserRole;
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,5 @@ public class UserInfoDto {
     private String addressDetail;
     private String profileImageUrl;
     private UserRole role;
+    private BigDecimal cash;
 }

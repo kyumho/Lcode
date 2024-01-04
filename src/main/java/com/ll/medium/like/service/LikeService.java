@@ -5,8 +5,10 @@ import com.ll.medium.like.dto.LikeStatusDto;
 import com.ll.medium.like.entity.Like;
 import com.ll.medium.like.repository.LikeRepository;
 import com.ll.medium.post.entity.Post;
+import com.ll.medium.post.exception.PostNotFoundException;
 import com.ll.medium.post.repository.PostRepository;
 import com.ll.medium.user.entity.User;
+import com.ll.medium.user.exception.UserNotFoundException;
 import com.ll.medium.user.repository.UserRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +27,9 @@ public class LikeService {
     // 좋아요 상태 조회
     public LikeStatus getLikeStatus(Long userId, Long postId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+                .orElseThrow(() -> new UserNotFoundException("해당하는 유저가 없습니다."));
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid post ID"));
+                .orElseThrow(() -> new PostNotFoundException("해당하는 게시글이 없습니다"));
 
         Like like = likeRepository.findByUserIdAndPostId(userId, postId)
                 .orElse(new Like(user, post, false)); // 좋아요가 없는 경우
@@ -40,9 +42,9 @@ public class LikeService {
     @Transactional
     public LikeStatus toggleLike(Long userId, Long postId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+                .orElseThrow(() -> new UserNotFoundException("해당하는 유저가 없습니다."));
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid post ID"));
+                .orElseThrow(() -> new PostNotFoundException("해당하는 게시글이 없습니다"));
 
         Optional<Like> likeOpt = likeRepository.findByUserIdAndPostId(userId, postId);
         Like like;

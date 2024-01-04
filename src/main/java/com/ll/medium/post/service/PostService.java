@@ -6,6 +6,7 @@ import com.ll.medium.post.dto.PostDetailDto;
 import com.ll.medium.post.dto.PostPageDto;
 import com.ll.medium.post.dto.PostUpdateDto;
 import com.ll.medium.post.entity.Post;
+import com.ll.medium.post.exception.PostNotFoundException;
 import com.ll.medium.post.repository.PostRepository;
 import com.ll.medium.common.dto.ResponseDto;
 import com.ll.medium.user.entity.User;
@@ -76,7 +77,7 @@ public class PostService {
     @Transactional
     public void update(Long postId, PostUpdateDto postUpdateDto) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
+                .orElseThrow(() -> new PostNotFoundException("해당 게시글이 없습니다. id=" + postId));
 
         post.update(postUpdateDto.getTitle(), postUpdateDto.getContent(), postUpdateDto.getIsPublished(),
                 postUpdateDto.getIsPaid(), postUpdateDto.getGptAnswer());
@@ -85,7 +86,7 @@ public class PostService {
     @Transactional
     public ResponseDto<PostDetailDto> getPost(Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+                .orElseThrow(() -> new PostNotFoundException("해당 게시글이 없습니다. id=" + id));
 
         // 조회수 증가
         post.incrementViews();
@@ -101,7 +102,7 @@ public class PostService {
     @Transactional
     public void deletePost(Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+                .orElseThrow(() -> new PostNotFoundException("해당 게시글이 없습니다. id=" + id));
 
         postRepository.delete(post);
     }

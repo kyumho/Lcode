@@ -1,9 +1,12 @@
 package com.ll.medium.post.service;
 
+import com.ll.medium.like.dto.LikeRequestDto;
+import com.ll.medium.like.repository.LikeRepository;
 import com.ll.medium.post.dto.PostDetailDto;
 import com.ll.medium.post.dto.PostPageDto;
 import com.ll.medium.post.dto.PostUpdateDto;
 import com.ll.medium.post.entity.Post;
+import com.ll.medium.post.exception.PostNotFoundException;
 import com.ll.medium.post.repository.PostRepository;
 import com.ll.medium.common.dto.ResponseDto;
 import com.ll.medium.user.entity.User;
@@ -30,11 +33,15 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public Page<PostPageDto> findAll(Pageable pageable) {
-        Pageable sortedByCreatedAtDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
-                Sort.by("createdAt").descending());
-        return postRepository.findAllByIsPublishedTrue(sortedByCreatedAtDesc).map(PostPageDto::entityToDto);
+    public Page<PostPageDto> findAll(Pageable pageable, String sortCode, String kwType, String keyword) {
+
+        // 동적 정렬 및 검색 조건을 처리하는 사용자 정의 메서드를 호출합니다.
+        Page<Post> postPage = postRepository.findAllWithFilters(pageable, sortCode, kwType, keyword);
+
+        // 결과를 PostPageDto로 매핑합니다.
+        return postPage.map(PostPageDto::entityToDto);
     }
+
 
     public Page<PostPageDto> findRecentPosts(int page) {
         List<Post> recentPosts = postRepository.findTop30ByIsPublishedTrueOrderByCreatedAtDesc();
@@ -50,47 +57,54 @@ public class PostService {
     }
 
     public Page<PostPageDto> getNotPublishedPostsByUser(User user, Pageable pageable) {
-        Pageable sortedByCreatedAtDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
-        Page<Post> postsByIsPublishedFalseAndUser = postRepository.findByIsPublishedFalseAndUser(user,
-                sortedByCreatedAtDesc);
+        Pageable sortedByCreatedAtDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                Sort.by("createdAt").descending());
+        Page<Post> posts = postRepository.findByIsPublishedFalseAndUser(user, sortedByCreatedAtDesc);
 
-        return postsByIsPublishedFalseAndUser.map(PostPageDto::entityToDto);
+        return posts.map(PostPageDto::entityToDto);
     }
+
 
     public Page<PostPageDto> getPublishedPostsByUser(User user, Pageable pageable) {
-        Pageable sortedByCreatedAtDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
-        Page<Post> postsByIsPublishedTrueAndUser = postRepository.findByIsPublishedTrueAndUser(user,
-                sortedByCreatedAtDesc);
+        Pageable sortedByCreatedAtDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                Sort.by("createdAt").descending());
+        Page<Post> posts = postRepository.findByIsPublishedTrueAndUser(user, sortedByCreatedAtDesc);
 
-        return postsByIsPublishedTrueAndUser.map(PostPageDto::entityToDto);
+        return posts.map(PostPageDto::entityToDto);
     }
+
 
     @Transactional
     public void update(Long postId, PostUpdateDto postUpdateDto) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
+                .orElseThrow(() -> new PostNotFoundException("해당 게시글이 없습니다. id=" + postId));
 
-        post.update(postUpdateDto.getTitle(), postUpdateDto.getContent(), postUpdateDto.getIsPublished(), postUpdateDto.getGptAnswer());
+        post.update(postUpdateDto.getTitle(), postUpdateDto.getContent(), postUpdateDto.getIsPublished(),
+                postUpdateDto.getIsPaid(), postUpdateDto.getGptAnswer());
     }
 
+    @Transactional
     public ResponseDto<PostDetailDto> getPost(Long id) {
-        PostDetailDto postDetailDto = postRepository.findById(id)
-                .map(PostDetailDto::new)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new PostNotFoundException("해당 게시글이 없습니다. id=" + id));
+
+        // 조회수 증가
+        post.incrementViews();
+
+        // Post 엔티티를 PostDetailDto로 변환
+        PostDetailDto postDetailDto = new PostDetailDto(post);
 
         return ResponseDto.<PostDetailDto>builder()
                 .successMessage("게시글 조회에 성공했습니다.")
                 .objectData(postDetailDto).build();
-
     }
 
     @Transactional
     public void deletePost(Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+                .orElseThrow(() -> new PostNotFoundException("해당 게시글이 없습니다. id=" + id));
 
         postRepository.delete(post);
     }
-
 
 }

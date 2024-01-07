@@ -9,6 +9,10 @@ import axios from '../../config/axios-config'
 import { HiOutlineChatAlt2 } from 'react-icons/hi'
 import Comment from '../comment/Comment'
 import { getAllComments } from '@/utils/comment'
+import { IoLockClosed } from 'react-icons/io5'
+import Link from 'next/link'
+import MDEditor from '@uiw/react-md-editor'
+import LikeButton from './LikeButton'
 
 export default function PostDetail({ postDetail }) {
   const { user, isLoading } = useUser() // 사용자 정보와 로딩 상태를 가져옵니다.
@@ -103,6 +107,10 @@ export default function PostDetail({ postDetail }) {
     }
   }
 
+  // if ((!user || user.role == 'USER') && postDetail.isPaid == true) {
+  //   return <div>이 글은 유료멤버십전용 입니다.</div>
+  // }
+
   return (
     <div>
       <div className='bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden max-w-lg mx-auto my-20'>
@@ -112,36 +120,64 @@ export default function PostDetail({ postDetail }) {
             {postDetail.title}
           </h1>
         </div>
-        <div className='p-4'>
-          <p className='text-gray-600 dark:text-gray-400'>
-            {postDetail.content}
-          </p>
-          <div className='mt-4 space-y-3'>
-            <div className='flex items-center text-sm text-gray-500 dark:text-gray-300'>
-              <span>Written by: {postDetail.author}</span>
-            </div>
-            <div className='flex items-center mt-2 text-sm text-gray-500 dark:text-gray-300'>
-              <span>Created at: {postDetail.createdAt}</span>
-            </div>
-            <div className='flex items-center mt-2 text-sm text-gray-500 dark:text-gray-300'>
-              <span>Updated at: {postDetail.updatedAt}</span>
-            </div>
-            {user && !isLoading && user.username === postDetail.author && (
-              <div className='mt-2 flex space-x-2'>
-                <button
-                  className='btn btn-primary btn-outline'
-                  onClick={(e) => handleUpdatePost(e, postDetail.id)}>
-                  <VscEdit className='mr-1' /> 수정
-                </button>
-                <button
-                  className='btn btn-error btn-outline'
-                  onClick={(e) => handleDeletePost(e, postDetail.id)}>
-                  <VscTrash className='mr-1' /> 삭제
-                </button>
+        {(!user || user.role === 'USER') && postDetail.isPaid === true ? (
+          <div className='flex flex-col items-center justify-center h-[40vh]'>
+            <div className='bg-white shadow-lg rounded-lg p-6 max-w-sm mx-auto'>
+              <div className='flex flex-col items-center text-center'>
+                <IoLockClosed className='text-6xl text-red-500 mb-4' />
+                <h2 className='text-2xl font-bold mb-4'>
+                  유료 멤버십 전용 컨텐츠
+                </h2>
+                <p className='text-gray-600 mb-4'>
+                  이 글은 유료 멤버십 회원만 열람 가능합니다.
+                </p>
+                <Link href='/membership'>
+                  <button className='btn btn-primary'>멤버십 가입하기</button>
+                </Link>
               </div>
-            )}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className='p-4'>
+            <MDEditor.Markdown
+              source={postDetail.content}
+              className='text-gray-600 dark:text-gray-400'
+            />
+            <div className='mt-4 space-y-3'>
+              <div className='flex items-center text-sm text-gray-500 dark:text-gray-300'>
+                <span>작성자 : {postDetail.author}</span>
+              </div>
+              <div className='flex items-center mt-2 text-sm text-gray-500 dark:text-gray-300'>
+                <span>조회수 : {postDetail.views}</span>
+              </div>
+              <div className='flex items-center mt-2 text-sm text-gray-500 dark:text-gray-300'>
+                <span>작성일시 : {postDetail.createdAt}</span>
+              </div>
+              <div className='flex items-center mt-2 text-sm text-gray-500 dark:text-gray-300'>
+                <span>업데이트 : {postDetail.updatedAt}</span>
+              </div>
+              {user && (
+                <div className='mt-4'>
+                  <LikeButton user={user} postDetail={postDetail} />
+                </div>
+              )}
+              {user && !isLoading && user.username === postDetail.author && (
+                <div className='mt-2 flex space-x-2'>
+                  <button
+                    className='btn btn-primary btn-outline'
+                    onClick={(e) => handleUpdatePost(e, postDetail.id)}>
+                    <VscEdit className='mr-1' /> 수정
+                  </button>
+                  <button
+                    className='btn btn-error btn-outline'
+                    onClick={(e) => handleDeletePost(e, postDetail.id)}>
+                    <VscTrash className='mr-1' /> 삭제
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
       <div className='mb-5 mt-4 p-4 bg-blue-200 rounded-md shadow-md'>
         <div className='flex items-center justify-between'>

@@ -1,18 +1,21 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import axios from '../../config/axios-config'
 import { VscListUnordered } from 'react-icons/vsc'
 import { useUser } from '@/hooks/useUser'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 import Post from './Post'
-import Pagination from '../ui/Pagination'
+import Pagination from './Pagination'
+import SearchPosts from './SearchPost'
 
 export default function AllPost() {
   const [page, setPage] = useState(0)
   const [posts, setPosts] = useState([])
+  const [sortCode, setSortCode] = useState('idDesc')
+  const [kwType, setKwType] = useState('title')
+  const [keyword, setKeyword] = useState('')
   const [totalPages, setTotalPages] = useState(0)
   const { user, isLoading } = useUser()
   const router = useRouter()
@@ -28,10 +31,28 @@ export default function AllPost() {
     }
   }
 
+  const onSearch = async () => {
+    const query = `sortCode=${sortCode}&kwType=${kwType}&kw=${encodeURIComponent(
+      keyword
+    )}`
+    try {
+      const response = await axios.get(
+        `/api/v1/post/list?page=${page}&${query}`
+      )
+      setPosts(response.data.objectData.content)
+      setTotalPages(response.data.objectData.totalPages)
+    } catch (error) {
+      console.error('Error fetching posts:', error)
+    }
+  }
+
   useEffect(() => {
+    const query = `sortCode=${sortCode}&kwType=${kwType}&kw=${encodeURIComponent(
+      keyword
+    )}`
     const getPost = async () => {
       const response = await axios
-        .get(`/api/v1/post/list?page=${page}`)
+        .get(`/api/v1/post/list?page=${page}&${query}`)
         .then((res) => {
           const post = res.data.objectData
           setPosts(post.content)
@@ -44,6 +65,15 @@ export default function AllPost() {
 
   return (
     <section className='flex flex-col justify-center items-center max-w-[850px] mx-auto mt-10'>
+      <SearchPosts
+        sortCode={sortCode}
+        setSortCode={setSortCode}
+        kwType={kwType}
+        setKwType={setKwType}
+        keyword={keyword}
+        setKeyword={setKeyword}
+        onSearch={onSearch}
+      />
       <h1 className='flex items-center basis-1/12'>글 목록</h1>
       <button
         onClick={handleNewPost}

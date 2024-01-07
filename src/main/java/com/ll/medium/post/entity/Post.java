@@ -42,18 +42,41 @@ public class Post extends DateEntity {
     @Column(columnDefinition = "LONGTEXT")
     private String gptAnswer;
 
+    @Builder.Default
+    private Long views = 0L;
+
+    @Builder.Default
+    private int likesCount = 0;
+
     @Column(name = "is_published")
     private Boolean isPublished;
+
+    @Builder.Default
+    private Boolean isPaid = false;
 
     @ManyToOne(fetch = LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private User user;
 
-    public void update(String title, String content, boolean isPublished, String gptAnswer) {
+    public void incrementViews() {
+        this.views++;
+    }
+
+    public void incrementLikesCount() {
+        this.likesCount++;
+    }
+
+    public void decrementLikesCount() {
+        this.likesCount--;
+    }
+
+    public void update(String title, String content, boolean isPublished,boolean isPaid, String gptAnswer) {
         this.title = title;
         this.content = content;
         this.isPublished = isPublished;
+        this.isPaid = isPaid;
         this.gptAnswer = gptAnswer;
     }
+
 }

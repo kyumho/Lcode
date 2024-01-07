@@ -18,9 +18,12 @@ public class PostPageDto {
     private String content;
     private Boolean isPublished;
     private String gptAnswer;
+    private Boolean isPaid;
     private String createdDate;
     private String modifiedDate;
     private String author;
+    private Long views;
+    private int likesCount;
 
     public static PostPageDto entityToDto(final Post post) {
 
@@ -31,10 +34,13 @@ public class PostPageDto {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .isPublished(post.getIsPublished())
+                .isPaid(post.getIsPaid())
                 .gptAnswer(post.getGptAnswer())
                 .createdDate(post.getCreatedAt().format(dateFormatter))
                 .modifiedDate(post.getUpdatedAt().format(dateFormatter))
                 .author(post.getUser().getUsername())
+                .views(post.getViews())
+                .likesCount(post.getLikesCount())
                 .build();
     }
 }

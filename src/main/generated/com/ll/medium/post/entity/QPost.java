@@ -33,7 +33,11 @@ public class QPost extends EntityPathBase<Post> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final BooleanPath isPaid = createBoolean("isPaid");
+
     public final BooleanPath isPublished = createBoolean("isPublished");
+
+    public final NumberPath<Integer> likesCount = createNumber("likesCount", Integer.class);
 
     public final StringPath title = createString("title");
 
@@ -41,6 +45,8 @@ public class QPost extends EntityPathBase<Post> {
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public final com.ll.medium.user.entity.QUser user;
+
+    public final NumberPath<Long> views = createNumber("views", Long.class);
 
     public QPost(String variable) {
         this(Post.class, forVariable(variable), INITS);

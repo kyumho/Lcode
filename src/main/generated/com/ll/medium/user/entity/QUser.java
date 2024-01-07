@@ -22,9 +22,13 @@ public class QUser extends EntityPathBase<User> {
 
     public static final QUser user = new QUser("user");
 
+    public final com.ll.medium.common.entity.QDateEntity _super = new com.ll.medium.common.entity.QDateEntity(this);
+
     public final StringPath address = createString("address");
 
     public final StringPath addressDetail = createString("addressDetail");
+
+    public final NumberPath<java.math.BigDecimal> cash = createNumber("cash", java.math.BigDecimal.class);
 
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
@@ -33,6 +37,8 @@ public class QUser extends EntityPathBase<User> {
     public final BooleanPath emailVerified = createBoolean("emailVerified");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final BooleanPath isPaid = createBoolean("isPaid");
 
     public final StringPath password = createString("password");
 
@@ -44,7 +50,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final QRefreshToken refreshToken;
 
-    public final StringPath role = createString("role");
+    public final EnumPath<UserRole> role = createEnum("role", UserRole.class);
 
     public final DateTimePath<java.time.LocalDateTime> updatedAt = createDateTime("updatedAt", java.time.LocalDateTime.class);
 

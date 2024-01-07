@@ -5,7 +5,7 @@ import Link from 'next/link'
 import axios from '../../config/axios-config'
 import { VscListUnordered } from 'react-icons/vsc'
 import Post from './Post'
-import Pagination from '../ui/Pagination'
+import Pagination from './Pagination'
 
 export default function AllPost() {
   const [page, setPage] = useState(0)

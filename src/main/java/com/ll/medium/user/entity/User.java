@@ -2,6 +2,7 @@ package com.ll.medium.user.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ll.medium.common.entity.DateEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +16,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +31,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class User {
+public class User extends DateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,17 +39,14 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
-
-    @Column(nullable = false)
     private String address;
 
-    @Column(name = "address_detail", nullable = false)
+    @Column(name = "address_detail")
     private String addressDetail;
 
     @Column(name = "profile_url")
@@ -61,6 +60,14 @@ public class User {
     @JsonIgnore
     private SocialProvider provider;
 
+    @Builder.Default
+    private boolean isPaid = false;  // 결제 여부를 나타내는 필드
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserRole role = UserRole.USER;
+
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -71,8 +78,8 @@ public class User {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @Column(nullable = false)
-    private String role;
+    @Builder.Default
+    private BigDecimal cash = BigDecimal.ZERO; // 유저의 캐시
 
     @JsonIgnore
     private boolean emailVerified;
@@ -83,8 +90,17 @@ public class User {
     @JsonIgnore
     private RefreshToken refreshToken;
 
+    public void addCash(BigDecimal amount) {
+        this.cash = this.cash.add(amount);
+    }
+
     public void verifyEmail() {
         this.emailVerified = true;
+    }
+
+    public void updateUser(boolean isPaid, UserRole role) {
+        this.isPaid = isPaid;
+        this.role = role;
     }
 
     public void updateUser(String password, String address, String addressDetail) {

@@ -11,6 +11,7 @@ import {
   VscQuestion,
   VscSignIn,
   VscThreeBars,
+  VscCreditCard,
 } from 'react-icons/vsc'
 import DropdownMenu from './Dropdown'
 import Image from 'next/image'
@@ -60,6 +61,14 @@ export default function Navbar() {
             GPT에게 질문하기
           </button>
         </Link>
+        {user && user.role == 'USER' && (
+          <Link href='/membership'>
+            <button className='btn btn-outline btn-md hover:bg-gray-200'>
+              <VscCreditCard size={20} className='mr-2' />
+              멤버십 가입하기
+            </button>
+          </Link>
+        )}
       </div>
 
       <div className='flex flex-row justify-between lg:hidden'>
@@ -72,7 +81,16 @@ export default function Navbar() {
 
       {isLoading ? null : user ? (
         <div className='hidden lg:flex lg:space-x-4 lg:justify-around'>
-          <p className='my-3'>{user.username}님 환영합니다.</p>
+          <p className='flex my-3'>
+            보유캐시 : {user.cash} 원
+            <p
+              className={`mx-4 ${
+                user.role === 'PAID' ? 'text-emerald-400' : 'text-gray-400'
+              }`}>
+              {user.role === 'PAID' ? '👑프리미엄 회원' : '😃일반 회원'}
+            </p>
+            {user.username}님 환영합니다.
+          </p>
           <Link href='/mypage'>
             <button className='btn btn-outline btn-md hover:bg-gray-200'>
               <VscAzure className='mr-2' />
@@ -87,7 +105,6 @@ export default function Navbar() {
               로그아웃
             </button>
           </Link>
-
           <Image
             src={
               user.profileImageUrl ? user.profileImageUrl : defaultProfileImage

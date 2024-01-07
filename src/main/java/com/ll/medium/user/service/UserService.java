@@ -47,7 +47,7 @@ public class UserService {
                 .addressDetail(userRegisterDto.getAddressDetail())
                 .profilePhotoUrl(userRegisterDto.getProfilePictureUrl())
                 .createdAt(LocalDateTime.now())
-                .role("USER")
+                .isPaid(false)  // 가입 시 무료 회원
                 .emailVerified(false)
                 .build();
 
@@ -87,14 +87,14 @@ public class UserService {
 
     public RefreshToken findRefreshToken(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다"));
+                .orElseThrow(() -> new UserNotFoundException("유저가 존재하지 않습니다"));
         return user.getRefreshToken();
     }
 
     @Transactional
     public void saveRefreshToken(String username, String tokenKey) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new UserNotFoundException("유저가 존재하지 않습니다."));
 
         RefreshToken refreshToken = RefreshToken.builder()
                 .keyValue(tokenKey)
@@ -134,7 +134,13 @@ public class UserService {
         userDTO.setAddress(user.getAddress());
         userDTO.setAddressDetail(user.getAddressDetail());
         userDTO.setProfileImageUrl(user.getProfilePhotoUrl());
+        userDTO.setCash(user.getCash());
+        userDTO.setRole(user.getRole());
 
         return userDTO;
+    }
+
+    public void save(User user) {
+        userRepository.save(user);
     }
 }

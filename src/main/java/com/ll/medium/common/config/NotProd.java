@@ -3,7 +3,9 @@ package com.ll.medium.common.config;
 import com.ll.medium.post.entity.Post;
 import com.ll.medium.post.repository.PostRepository;
 import com.ll.medium.user.entity.User;
+import com.ll.medium.user.entity.UserRole;
 import com.ll.medium.user.repository.UserRepository;
+import java.math.BigDecimal;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-@Profile("dev")
+@Profile("!prod")
 public class NotProd implements ApplicationRunner {
 
     private final PostRepository postRepository;
@@ -31,9 +33,11 @@ public class NotProd implements ApplicationRunner {
                         .username("test" + i)
                         .password(passwordEncoder.encode("test" + i))
                         .email("test" + i + "@test.com")
+                        .role(UserRole.USER)
                         .address("서울특별시" + i)
                         .addressDetail("강남구" + i)
-                        .role("USER")
+                        .isPaid(false)
+                        .cash(BigDecimal.TEN)
                         .emailVerified(true)
                         .build();
 
@@ -43,7 +47,36 @@ public class NotProd implements ApplicationRunner {
                         .title("Title " + i)
                         .content("Content " + i)
                         .user(testUser)
+                        .views(0L)
+                        .isPaid(false)
                         .isPublished(true)
+                        .build();
+
+                postRepository.save(post);
+            });
+            IntStream.rangeClosed(51, 100).forEach(i -> {
+                User testUser = User
+                        .builder()
+                        .username("test" + i)
+                        .password(passwordEncoder.encode("test" + i))
+                        .email("test" + i + "@test.com")
+                        .role(UserRole.PAID)
+                        .address("서울특별시" + i)
+                        .addressDetail("강남구" + i)
+                        .cash(BigDecimal.TEN)
+                        .isPaid(true)
+                        .emailVerified(true)
+                        .build();
+
+                userRepository.save(testUser);
+
+                Post post = Post.builder()
+                        .title("Title " + i)
+                        .content("Content " + i)
+                        .user(testUser)
+                        .views(0L)
+                        .isPublished(true)
+                        .isPaid(true)
                         .build();
 
                 postRepository.save(post);

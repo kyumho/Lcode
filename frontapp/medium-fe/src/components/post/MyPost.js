@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from '../../config/axios-config'
 import Post from './Post'
-import Pagination from '../ui/Pagination'
+import Pagination from './Pagination'
 import { Tab } from '@headlessui/react'
 import { IoLockClosed, IoLockOpen } from 'react-icons/io5'
 

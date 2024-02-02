@@ -73,7 +73,7 @@ public class ProdAuthService implements AuthService{
         ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", accessToken)
                 .httpOnly(true)
                 .path("/")
-                .domain(".lionshop.me")
+                .domain(".llcode.me")
                 .secure(true)
                 .sameSite("Strict") // SameSite 설정
                 .build();
@@ -81,7 +81,7 @@ public class ProdAuthService implements AuthService{
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
                 .path("/")
-                .domain(".lionshop.me")
+                .domain(".llcode.me")
                 .secure(true)
                 .sameSite("Strict") // SameSite 설정
                 .build();
@@ -99,7 +99,7 @@ public class ProdAuthService implements AuthService{
                 if (cookie.getName().equals("accessToken") || cookie.getName().equals("refreshToken")) {
                     ResponseCookie deleteCookie = ResponseCookie.from(cookie.getName(), "")
                             .httpOnly(true)
-                            .domain(".lionshop.me")
+                            .domain(".llcode.me")
                             .path("/")
                             .secure(true)
                             .sameSite("None") // SameSite 설정

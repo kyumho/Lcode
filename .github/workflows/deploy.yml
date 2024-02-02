@@ -24,10 +24,10 @@ jobs:
           APPLICATION_MAIL: ${{ secrets.APPLICATION_MAIL_YML }}
           APPLICATION_SECURITY: ${{ secrets.APPLICATION_SECURITY_YML }}
         run: |
-          echo "$APPLICATION_YML" > src/main/resources/application.yml
-          echo "$APPLICATION_DB" > src/main/resources/application-db.yml
-          echo "$APPLICATION_MAIL" > src/main/resources/application-mail.yml
-          echo "$APPLICATION_SECURITY" > src/main/resources/application-security.yml
+          echo "$APPLICATION_YML" | base64 -d  > src/main/resources/application.yml
+          echo "$APPLICATION_DB" | base64 -d  > src/main/resources/application-db.yml
+          echo "$APPLICATION_MAIL" | base64 -d  > src/main/resources/application-mail.yml
+          echo "$APPLICATION_SECURITY" | base64 -d  > src/main/resources/application-security.yml
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --remote-only

@@ -44,8 +44,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 ResponseCookie newAccessTokenCookie = ResponseCookie.from("accessToken", newAccessToken)
                         .httpOnly(true)
                         .path("/")
+                        .domain(".llcode.me")
                         .secure(true)
-                        .sameSite("None") // SameSite 설정
+                        .sameSite("Strict") // SameSite 설정
                         .build();
 
                 response.addHeader("Set-Cookie", newAccessTokenCookie.toString());

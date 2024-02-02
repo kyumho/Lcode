@@ -46,7 +46,7 @@ export default function Navbar() {
       <div className='flex flex-row space-x-4'>
         <Link href='/'>
           <p className='my-2 text-xl text-gray-600 font-bold cursor-pointer mb-4 lg:mb-0'>
-            Lcode
+            LCODE
           </p>
         </Link>
         <Link href='/board'>

@@ -15,6 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +30,7 @@ public class SecurityConfig {
     private final UserDetailsServiceImpl userDetailsService;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtTokenUtil);
         http
                 .cors(c -> c.configure(http))
@@ -36,10 +39,18 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(a -> a
                         .requestMatchers(
-                                "/**",
-                                "/api/v1/member/join", "/api/v1/auth/login", "/api/v1/auth/logout",
-                                "/api/v1/auth/confirm-account", "/api/v1/auth/email-exists", "/api/v1/post/list", "/api/v1/post/detail/**", "api/v1/post/recent", "api/v1/member/exist/**",
-                                "api/v1/email/exist/**"
+                                new MvcRequestMatcher(introspector, "/h2-console/**"),
+                                new AntPathRequestMatcher("/**"),
+                                new AntPathRequestMatcher("/api/v1/member/join"),
+                                new AntPathRequestMatcher("/api/v1/auth/login"),
+                                new AntPathRequestMatcher("/api/v1/auth/logout"),
+                                new AntPathRequestMatcher("/api/v1/auth/confirm-account"),
+                                new AntPathRequestMatcher("/api/v1/auth/email-exists"),
+                                new AntPathRequestMatcher("/api/v1/post/list"),
+                                new AntPathRequestMatcher("/api/v1/post/detail/**"),
+                                new AntPathRequestMatcher("/api/v1/post/recent"),
+                                new AntPathRequestMatcher("/api/v1/member/exist/**"),
+                                new AntPathRequestMatcher("/api/v1/email/exist/**")
                         ).permitAll()
                         .anyRequest().authenticated()
                 );

@@ -28,13 +28,13 @@ public class EmailService {
         MimeMessage mail = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mail, "utf-8");
 
-        String htmlMsg = "<h3>미디엄 클론 이메일 인증</h3>"
+        String htmlMsg = "<h3>Lcode 이메일 인증</h3>"
                 + "<p>이메일 인증을 하시려면 아래 링크를 클릭해주세요 :</p>"
-                + "<a href='https://api.lionshop.me/api/v1/auth/confirm-account?token=" + token + "'>이메일 인증하기</a>";
+                + "<a href='https://api.llcode.me/api/v1/auth/confirm-account?token=" + token + "'>이메일 인증하기</a>";
 
         try {
             helper.setTo(email);
-            helper.setSubject("미디엄 클론 이메일 인증");
+            helper.setSubject("Lcode 이메일 인증");
             helper.setText(htmlMsg, true); // true를 넣어주면 html 형식으로 메일이 보내집니다.
             helper.setFrom(mailProperties.getUsername());
         } catch (MessagingException e) {

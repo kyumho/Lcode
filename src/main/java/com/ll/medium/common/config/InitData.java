@@ -10,13 +10,12 @@ import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class NotProd implements ApplicationRunner {
+public class InitData implements ApplicationRunner {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
@@ -26,7 +25,7 @@ public class NotProd implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         if (userRepository.count() == 0) {
 
-            IntStream.rangeClosed(1, 50).forEach(i -> {
+            IntStream.rangeClosed(1, 25).forEach(i -> {
                 User testUser = User
                         .builder()
                         .username("test" + i)
@@ -53,7 +52,7 @@ public class NotProd implements ApplicationRunner {
 
                 postRepository.save(post);
             });
-            IntStream.rangeClosed(51, 100).forEach(i -> {
+            IntStream.rangeClosed(26, 50).forEach(i -> {
                 User testUser = User
                         .builder()
                         .username("test" + i)

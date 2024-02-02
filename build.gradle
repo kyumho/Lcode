@@ -78,6 +78,10 @@ dependencies {
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }
 
+jar {
+    enabled = false
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }

@@ -1,5 +1,9 @@
 import MyPageSidebar from '@/components/ui/MyPageSidebar'
 
+export const metadata = {
+  title: 'Mypage',
+}
+
 export default function MyPageLayout({ children }) {
   return (
     <div className='flex'>

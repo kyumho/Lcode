@@ -4,8 +4,8 @@ import TanstackProvider from '@/context/TanStackProvider'
 
 export const metadata = {
   title: {
-    default: '#',
-    template: '# | %s',
+    default: 'LCODE',
+    template: '%s | LCODE',
   },
   description: 'home',
 }
